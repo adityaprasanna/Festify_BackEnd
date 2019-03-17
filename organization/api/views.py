@@ -131,8 +131,8 @@ class OrganizationDashboard(APIView):
     def get(self, request, format=None):
 
         try:
-            get_user = CustomUser.objects.get(username=request.GET['userid'])
-            get_org = Organization.objects.get(user=get_user)
+            # get_user = CustomUser.objects.get(username=request.GET['userid'])
+            get_org = Organization.objects.get(username=request.GET['userid'])
 
             org_data = {
                 "name": get_org.name,
