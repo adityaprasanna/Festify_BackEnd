@@ -241,9 +241,40 @@ def thankyou(request):
 	msg.send()
 
 	""" SMS sending using textlocal """
+	# apikey = "aQszfrEuG9A-fDdmx6sXzFLZ35MrbNo8jyVGpdunLN"
+	# number = 9611990077
+	# # payment_data.get("phone")
+	# if len(ticket_id) > 10:
+	# 	ticket_id = ticket_id[:10]
+	# if len(fest_name) > 10:
+	# 	fest_name = fest_name[:14]
+	# if len(organization_name) > 10:
+	# 	organization_name = organization_name[:13]
+	# if len(event_name) > 10:
+	# 	event_name = event_name[:15]
+	# # if len(str(event_time)) > 10:
+	# # 	event_time = event_time[:6]
+	# message = "Your UID is "+str(ticket_id)+" for the event "+str(event_name)+" at "+str(event_time)+" Use this sms to get into "+str(fest_name)+", "+str(organization_name)+". Please carry your ID card. Happy Festing!"
+	# resp = sendSMS(apikey, number, message)
+
+	payment_data ={
+        "first_name": "Swapnil ",
+        "last_name": "Kumar ",
+        "email": "swapnilaryan.nitdgp@gmail.com",
+        "phone": "9108648046",
+        "fest_name": "ervervea",
+        "event_name": "vaervae",
+        "event_time": "04:30:00",
+        "ticket_price": 200.0,
+        "ticket_id": "p26f4c8e5",
+	}
+	ticket_id = "p"+str(1212)+"f"+str(1)+"c"+str(2)+"e"+str(2)
+	fest_name = "varchasva"
+	organization_name = "sjbit"
+	event_name = "mad ads"
+	event_time = "4:30"
 	apikey = "aQszfrEuG9A-fDdmx6sXzFLZ35MrbNo8jyVGpdunLN"
-	number = 9611990077
-	# payment_data.get("phone")
+	number = payment_data.get("phone")
 	if len(ticket_id) > 10:
 		ticket_id = ticket_id[:10]
 	if len(fest_name) > 10:
@@ -252,9 +283,10 @@ def thankyou(request):
 		organization_name = organization_name[:13]
 	if len(event_name) > 10:
 		event_name = event_name[:15]
-	# if len(str(event_time)) > 10:
-	# 	event_time = event_time[:6]
+	if len(event_time) > 10:
+		event_time = event_time[:6]
 	message = "Your UID is "+str(ticket_id)+" for the event "+str(event_name)+" at "+str(event_time)+" Use this sms to get into "+str(fest_name)+", "+str(organization_name)+". Please carry your ID card. Happy Festing!"
-	resp = sendSMS(apikey, number, message)
+	print(12312)
+	resp =  sendSMS(apikey, number, message)
 	payment_data['resp'] = resp
 	return Response(payment_data, status=status.HTTP_200_OK)
