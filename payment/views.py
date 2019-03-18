@@ -242,7 +242,8 @@ def thankyou(request):
 
 	""" SMS sending using textlocal """
 	apikey = "aQszfrEuG9A-fDdmx6sXzFLZ35MrbNo8jyVGpdunLN"
-	number = payment_data.get("phone")
+	number = 9611990077
+	# payment_data.get("phone")
 	if len(ticket_id) > 10:
 		ticket_id = ticket_id[:10]
 	if len(fest_name) > 10:
@@ -251,8 +252,8 @@ def thankyou(request):
 		organization_name = organization_name[:13]
 	if len(event_name) > 10:
 		event_name = event_name[:15]
-	if len(str(event_time)) > 10:
-		event_time = event_time[:6]
+	# if len(str(event_time)) > 10:
+	# 	event_time = event_time[:6]
 	message = "Your UID is "+str(ticket_id)+" for the event "+str(event_name)+" at "+str(event_time)+" Use this sms to get into "+str(fest_name)+", "+str(organization_name)+". Please carry your ID card. Happy Festing!"
 	resp = sendSMS(apikey, number, message)
 	payment_data['resp'] = resp
