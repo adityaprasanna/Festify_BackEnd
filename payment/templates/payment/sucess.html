@@ -27,6 +27,7 @@
 	function thankyou() {
 		var url = "{% url 'payment:thankyou' %}";
 		url = url.toString().replace('/api/', '/django/api/');	
+		alert(url);
 		$.ajax({
 			url : url,
 	        type : 'GET',
@@ -42,11 +43,11 @@
                	var email = response.email;
                	var phone = response.phone;
                	var fest = response.fest_name;
-               	var event = response.event_name;
+		var event = response.event_name;
+		       
                	var price = response.ticket_price;
                	var tid = response.ticket_id;
-
-               	window.location.href = "http://www.festify.in/success/"+'&'+fname+'&'+lname+'&'+email+'&'+phone+'&'+fest+'&'+event+'&'+price+'&'+tid;
+               	window.location.href = "https://www.festify.in/success/"+'&'+fname+'&'+lname+'&'+email+'&'+phone+'&'+fest+'&'+event+'&'+price+'&'+tid;
                }
            },
            error:function(xhr) {
