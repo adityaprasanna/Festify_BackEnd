@@ -190,7 +190,7 @@ def failure(request):
 
 def sendSMS(apikey, numbers, message):
     data =  urllib.parse.urlencode({'apikey': apikey, 
-    	'numbers': numbers, 'message' : message})
+    	'numbers': numbers, 'message' : message, 'sender': "FESTFY"})
     data = data.encode('utf-8')
     request = urllib.request.Request("https://api.textlocal.in/send/?")
     f = urllib.request.urlopen(request, data)
@@ -218,6 +218,7 @@ def thankyou(request):
 			"phone": rec.phone,
 			"fest_name": fest.name,
 			"event_name": event.event_name,
+			"event_time": event.event_time,
 			"ticket_price": float(rec.amount)
 		}
 
@@ -242,13 +243,15 @@ def thankyou(request):
 	apikey = "aQszfrEuG9A-fDdmx6sXzFLZ35MrbNo8jyVGpdunLN"
 	number = payment_data.get("phone")
 	if len(ticket_id) > 10:
-		ticket_id = ticket_id[:15]
+		ticket_id = ticket_id[:10]
 	if len(fest_name) > 10:
-		fest_name = fest_name[:10]
+		fest_name = fest_name[:14]
 	if len(organization_name) > 10:
-		organization_name = organization_name[:10]
+		organization_name = organization_name[:13]
 	if len(event_name) > 10:
-		event_name = event_name[:10]
-	message = "Your ticket number is "+str(ticket_id)+" for "+str(fest_name)+" "+str(organization_name)+" for the event "+str(event_name)+". Please carry your ID."
-	resp =  sendSMS(apikey, number, message)
+		event_name = event_name[:15]
+	if len(event_time) > 10:
+		event_time = event_time[:6]
+	message = "Your UID is "+str(ticket_id)+" for the event "+str(event_name)+" at "+str(event_time)+" Use this sms to get into "+str(fest_name)+", "+str(organization_name)+". Please carry your ID card. Happy Festing!"
+	resp = sendSMS(apikey, number, message)
 	return Response(payment_data, status=status.HTTP_200_OK)
