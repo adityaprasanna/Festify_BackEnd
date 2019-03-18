@@ -210,6 +210,7 @@ def thankyou(request):
 		fest_name = fest.name
 		event = Event.objects.get(id = rec.event_id)
 		event_name = event.event_name
+		event_time = event.event_time
 
 		payment_data = {
 			"first_name": rec.first_name,
