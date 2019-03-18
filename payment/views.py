@@ -251,7 +251,7 @@ def thankyou(request):
 		organization_name = organization_name[:13]
 	if len(event_name) > 10:
 		event_name = event_name[:15]
-	if len(str(event_time)) > 10:
+	if len(str(event_time)) > 6:
 		event_time = event_time[:6]
 	message = "Your UID is "+str(ticket_id)+" for the event "+str(event_name)+" at "+str(event_time)+" Use this sms to get into "+str(fest_name)+", "+str(organization_name)+". Please carry your ID card. Happy Festing!"
 	resp = sendSMS(apikey, number, message)
