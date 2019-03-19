@@ -14,6 +14,6 @@ from django.core.wsgi import get_wsgi_application
 sys.path.append('/home/ubuntu/colfest/swapnilcolfest/Festify_BackEnd2/colevents')
 # sys.path.append('/home/ubuntu/colfest/swapnilcolfest/Festify_BackEnd2/colevents')
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "colevents.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 application = get_wsgi_application()
