@@ -118,7 +118,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'colevents.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
