@@ -8,6 +8,7 @@ from django.dispatch import receiver
 
 class CustomUser(AbstractUser):
 	is_normaluser = models.BooleanField(default=True)
+	new_normaluser = models.BooleanField(default=True)
 	is_organization = models.BooleanField(default=True)
 
 
