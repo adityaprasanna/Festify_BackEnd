@@ -25,7 +25,6 @@ class UserProfile(models.Model):
 	    blank=True,
 	    default='',
 	)
-	# fest_liked = models.ManyToManyField('fest.Fest', blank=True, related_name='fest_liked')
 	fest_liked = models.IntegerField("Fest Liked", blank=True, default=0)
 
 	created = models.DateTimeField(auto_now_add=True)
