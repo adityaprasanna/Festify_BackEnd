@@ -16,9 +16,7 @@ from payment.models import Payment
 class UserLogin(APIView):
 
 	def post(self, request, format=None):
-
 		requested_data = json.loads(request.body)
-
 		user = CustomUser.objects.filter(email = requested_data['email'])
 
 		if not user:
@@ -82,7 +80,6 @@ class UserLogin(APIView):
 class FestDislike(APIView):
 
 	def get(self, request, format=None):
-
 		get_user = CustomUser.objects.get(email = request.GET['email'])
 		get_user_profile = UserProfile.objects.get(user = get_user)
 		fests_liked = get_user_profile.fest_liked.all()

@@ -129,7 +129,6 @@ class OrganizationDashboard(APIView):
     """
 
     def get(self, request, format=None):
-
         try:
             get_user = CustomUser.objects.get(username=request.GET['userid'])
             get_org = Organization.objects.get(user=get_user)
@@ -153,7 +152,7 @@ class OrganizationDashboard(APIView):
                     event = {
                         "id": eve_obj.id,
                         "event_name": eve_obj.event_name,
-                        "event_rules": eve_obj.event_rules,
+                        # "event_rules": eve_obj.event_rules,
                         "event_type": eve_obj.event_type,
                         "event_description": eve_obj.event_description,
                         "event_coordinator": eve_obj.event_coordinator,
