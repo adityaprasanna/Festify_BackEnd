@@ -98,7 +98,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True 
 
-ROOT_URLCONF = 'colevents.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -118,7 +118,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'colevents.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
