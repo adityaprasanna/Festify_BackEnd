@@ -126,7 +126,7 @@ WSGI_APPLICATION = 'colevents.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'colevents',
+        'NAME': 'festify',
         'USER': 'debian-sys-maint',
         'PASSWORD':'zm2QbaukC2esB5FE',
         'HOST': '127.0.0.1',
