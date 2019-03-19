@@ -96,9 +96,9 @@ MIDDLEWARE = [
 
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ORIGIN_ALLOW_ALL = True
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'colevents.urls'
 
 TEMPLATES = [
     {
@@ -118,8 +118,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
-
+WSGI_APPLICATION = 'colevents.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
