@@ -36,3 +36,4 @@ speed-measure-plugin.json
 .DS_Store
 Thumbs.db
 
+uwsgi.log
