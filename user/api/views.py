@@ -44,7 +44,7 @@ class UserLogin(APIView):
 
 
 		get_user = CustomUser.objects.get(email = requested_data['email'])
-		print("-------------", get_user.id)
+
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		if not get_user_profile:
 			UserProfile.objects.get_or_create(user=get_user)
@@ -55,9 +55,7 @@ class UserLogin(APIView):
 		elif provider == "FACEBOOK":
 			login_type = "F"
 		get_user_profile.update(social_auth_login_type = login_type)
-		
-		print("--------------", get_user_profile)
-		
+				
 		get_user_profile = get_user_profile.first()
 		fests_liked = get_user_profile.fest_liked.all()
 		events_booked = Payment.objects.filter(email = requested_data['email'])
