@@ -47,7 +47,13 @@ class UserLogin(APIView):
 		print("-------------", get_user.id)
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		if not get_user_profile:
+			provider = requested_data['provider']
+			if provider == "GOOGLE":
+				login_type = "G"
+			elif provider == "FACEBOOK":
+				login_type = "F"
 			UserProfile.objects.get_or_create(user=get_user)
+			get_user_profile.first().update(social_auth_login_type = login_type)
 
 		print("--------------", get_user_profile)
 		get_user_profile = get_user_profile.first()
