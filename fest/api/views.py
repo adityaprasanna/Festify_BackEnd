@@ -89,7 +89,7 @@ class FestCreate(APIView):
         ifsc = requested_data[1]["ifsc"]
 
         """Save image to uploads directory"""
-        utils.save_to_file(image, utils.replace_str_with_us(fest_name))
+        image = utils.save_to_file(image, utils.replace_str_with_us(fest_name))
 
         """ save events """
         event_list = []
