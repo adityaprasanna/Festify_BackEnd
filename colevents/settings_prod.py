@@ -183,7 +183,8 @@ EMAIL_HOST_USER = 'noreply@festify.in'
 
 EMAIL_HOST_PASSWORD = 'Festifytester1!'
 
-EMAIL_PORT = 465
+EMAIL_PORT = 587
+    # 465
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
