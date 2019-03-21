@@ -183,7 +183,7 @@ EMAIL_HOST_USER = 'noreply@festify.in'
 
 EMAIL_HOST_PASSWORD = 'Festifytester1!'
 
-EMAIL_PORT = 587
+EMAIL_PORT = 80
     # 465
 
 # Internationalization
