@@ -205,6 +205,9 @@ class FestUpdate(APIView):
                 caption=sponsor.get('caption')
             )
 
+
+        requested_data[1]["image"] = utils.save_to_file(requested_data[1]["image"], utils.replace_str_with_us(requested_data[1]["name"]))
+
         Fest.objects.filter(id=requested_data[1]["id"]).update(
             name=requested_data[1]["name"],
             image=requested_data[1]["image"],
