@@ -44,6 +44,7 @@ class UserLogin(APIView):
 
 
 		get_user = CustomUser.objects.get(email = requested_data['email'])
+		print("-------------", get_user.id)
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		print("--------------", get_user_profile)
 		get_user_profile = get_user_profile.first()
