@@ -46,6 +46,7 @@ class UserLogin(APIView):
 		get_user = CustomUser.objects.get(email = requested_data['email'])
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		print("--------------", get_user_profile)
+		get_user_profile = get_user_profile.first()
 		fests_liked = get_user_profile.fest_liked.all()
 		events_booked = Payment.objects.filter(email = requested_data['email'])
 
