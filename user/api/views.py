@@ -54,7 +54,7 @@ class UserLogin(APIView):
 			login_type = "G"
 		elif provider == "FACEBOOK":
 			login_type = "F"
-		get_user_profile.first().update(social_auth_login_type = login_type)
+		get_user_profile.update(social_auth_login_type = login_type)
 		
 		print("--------------", get_user_profile)
 		
