@@ -30,6 +30,8 @@ ALLOWED_HOSTS = ['www.festify.in','festify.in','127.0.0.1','localhost']
 """ Host for PayU """
 HOST = 'https://www.festify.in/django/'
 
+HOST_URL = 'https://www.festify.in/'
+
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = (

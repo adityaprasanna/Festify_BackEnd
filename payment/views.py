@@ -8,6 +8,7 @@ from random import randint
 
 from django.conf import settings
 from django.core import mail
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -128,6 +129,7 @@ class PaymentGateway(APIView):
 
 @csrf_protect
 @csrf_exempt
+@api_view(["POST"])
 def success(request):
 	c = {}
 	c.update(csrf(request))
@@ -155,7 +157,19 @@ def success(request):
 
 	Payment.objects.filter(transaction_id = txnid).update(status = 'S')
 
-	return render(request, 'payment/sucess.html', {"txnid":txnid, "status":status, "amount":amount})
+	payment_data = thankyou(txnid)
+	# rr = {"txnid":txnid, "status":status, "amount":amount, "pd": payment_data}
+	# return Response(payment_data)
+	fname = payment_data["first_name"]
+	lname = payment_data["last_name"]
+	email = payment_data["email"]
+	phone = payment_data["phone"]
+	fest = payment_data["fest_name"]
+	event = payment_data["event_name"]
+	price = str(payment_data["ticket_price"])
+	tid = str(payment_data["ticket_id"])
+	return HttpResponseRedirect(settings.HOST_URL + "success/"+'&'+fname+'&'+lname+'&'+email+'&'+phone+'&'+fest+'&'+event+'&'+price+'&'+tid)
+	# return render(request, 'payment/sucess.html', {"txnid":txnid, "status":status, "amount":amount})
 
 
 @csrf_protect
@@ -198,9 +212,10 @@ def sendSMS(apikey, numbers, message):
     return (fr)
 
 
-@api_view(["GET"])
-def thankyou(request):
-	txnid = request.GET.get("txnid")
+# @api_view(["GET"])
+# def thankyou(request):
+def thankyou(txnid):
+	# txnid = request.GET.get("txnid")
 	payment_rec = Payment.objects.filter(transaction_id = txnid)
 
 	payment_data = {}
@@ -236,9 +251,9 @@ def thankyou(request):
 	to = [payment_data.get("email")]
 	html_content = "Here’s your unique identification number is {} for {}, {} for the event {}. Please ensure to carry your ID card with you.".format(ticket_id,fest_name,organization_name,event_name)
 
-	msg = EmailMessage(subject, html_content, from_email, to)
-	msg.content_subtype = "html"
-	msg.send()
+	# msg = EmailMessage(subject, html_content, from_email, to)
+	# msg.content_subtype = "html"
+	# msg.send()
 
 	""" SMS sending using textlocal """
 	apikey = "aQszfrEuG9A-fDdmx6sXzFLZ35MrbNo8jyVGpdunLN"
@@ -257,4 +272,5 @@ def thankyou(request):
 	resp = sendSMS(apikey, number, message)
 	payment_data['resp'] = resp
 	payment_data['msg'] = message
-	return Response(payment_data, status=status.HTTP_200_OK)
+	return payment_data
+	# return Response(payment_data, status=status.HTTP_200_OK)
