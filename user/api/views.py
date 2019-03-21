@@ -70,9 +70,9 @@ class UserLogin(APIView):
 			events_booked_data.append(event)
 
 		result_set = {
-            "liked_fests": fests_liked_data,
-            "booked_events": events_booked_data,
-        }
+		"liked_fests": fests_liked_data,
+		"booked_events": events_booked_data,
+		}
 
 		return Response(result_set, status=status.HTTP_200_OK)
 
@@ -102,6 +102,10 @@ class FestDislike(APIView):
 			event = {
 				"id": get_event.id,
 				"name": get_event.event_name,
+				"event_type": get_event.event_type,
+				"event_coordinator": get_event.event_coordinator,
+				"event_date": get_event.event_date,
+				"event_time": get_event.event_time,
 				"ticket_id": "123",
 				"ticket_price": get_event.ticket_price,
 				"booking_date": obj.created.strftime('%Y-%m-%d'),
