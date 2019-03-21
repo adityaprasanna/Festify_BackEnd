@@ -31,18 +31,21 @@ class UserLogin(APIView):
 				login_type = "F"
 			base_user = CustomUser(username=email, 
 				email=email, password=password, first_name=fname, last_name=lname,
-				is_organization=False)
+				is_organization=False, last_login = timezone.now())
 			base_user.save()
 			get_normaluser = CustomUser.objects.get(email=email)
-			UserProfile.objects.filter(user = get_normaluser.id).update(
+			pp = UserProfile.objects.filter(user = get_normaluser.id).update(
 				social_auth_login_type = login_type)
+			print("pp", pp)	
 		else:
 			last_login = timezone.now()
 			CustomUser.objects.filter(username = user[0].username).update(
 				last_login = last_login)
 
+
 		get_user = CustomUser.objects.get(email = requested_data['email'])
-		get_user_profile = UserProfile.objects.get(user = get_user)
+		get_user_profile = UserProfile.objects.filter(user = get_user)
+		print("--------------", get_user_profile)
 		fests_liked = get_user_profile.fest_liked.all()
 		events_booked = Payment.objects.filter(email = requested_data['email'])
 
