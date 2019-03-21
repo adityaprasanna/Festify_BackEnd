@@ -11,7 +11,7 @@ def save_to_file(img_string, name):
     with open(filename, 'wb') as f:
         f.write(base64.decodebytes(img_string))
         f.close()
-    return '/uploads/' + name
+    return '/uploads/' + name + '.jpg'
 
 def replace_str_with_us(s):
     # Remove all non-word characters (everything except numbers and letters)
