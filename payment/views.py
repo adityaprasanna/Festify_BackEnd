@@ -201,8 +201,9 @@ def sendSMS(apikey, numbers, message):
 @api_view(["GET"])
 def thankyou(request):
 	txnid = request.GET.get("txnid")
+	Payment.objects.filter(transaction_id = txnid).update(status = 'S')
 	payment_rec = Payment.objects.filter(transaction_id = txnid)
-
+	print(txnid, payment_rec)
 	payment_data = {}
 	for rec in payment_rec:
 		payment_id = rec.id
