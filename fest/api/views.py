@@ -186,30 +186,57 @@ class FestUpdate(APIView):
         get_user = CustomUser.objects.get(username=username)
 
         events = requested_data[1]["event"]
-        for event in events:
-            Event.objects.filter(id=event.get('id')).update(
-                event_name=event.get('eventName'),
-                # event_rules = event.get('rule'),
-                event_type=event.get('event_type'),  # change
-                event_description=event.get('event_description'),  # change
-                event_coordinator=event.get('event_coordinator'),  # change
-                event_date=event.get('event_date'),  # change
-                event_time=event.get('event_time'),  # change
-                ticket_price=event.get('ticket_price'),
+        get_fest = Fest.objects.get(id=requested_data[1]["id"])
 
-            )
+        for event in events:
+            event_id = event.get('id')
+            if event_id is not None:
+                Event.objects.filter(id=event_id).update(
+                    event_name=event.get('eventName'),
+                    # event_rules = event.get('rule'),
+                    event_type=event.get('event_type'),  # change
+                    event_description=event.get('event_description'),  # change
+                    event_coordinator=event.get('event_coordinator'),  # change
+                    event_date=event.get('event_date'),  # change
+                    event_time=event.get('event_time'),  # change
+                    ticket_price=event.get('ticket_price'),
+                )
+            else:
+                create_event = Event.objects.create(
+                    event_name=event.get('eventName'),
+                    # event_rules = event.get('rule'),
+                    event_type=event.get('event_type'),  # change
+                    event_description=event.get('event_description'),  # change
+                    event_coordinator=event.get('event_coordinator'),  # change
+                    event_date=event.get('event_date'),  # change
+                    event_time=event.get('event_time'),  # change
+                    ticket_price=event.get('ticket_price')
+                )
+                create_event.save()
+                get_fest.events.add(create_event.id)
+
 
         sponsors = requested_data[1]["event_sponser"]
         for sponsor in sponsors:
             picture = sponsor.get('picture')
             evtSpnName = sponsor.get('evtSpnName')
             picture = utils.save_to_file(picture, utils.replace_str_with_us(evtSpnName))
-            
-            Sponsor.objects.filter(id=sponsor.get('id')).update(
-                sponsor_name=evtSpnName,
-                sponsor_picture=picture,
-                caption=sponsor.get('caption')
-            )
+            sponsor_id = sponsor.get('id')
+
+            if sponsor_id is not None:
+                Sponsor.objects.filter(id=sponsor_id).update(
+                    sponsor_name=evtSpnName,
+                    sponsor_picture=picture,
+                    caption=sponsor.get('caption')
+                )
+            else:
+                create_sponsor = Sponsor.objects.create(
+                    sponsor_name=evtSpnName,
+                    sponsor_picture=picture,
+                    caption=sponsor.get('caption')
+                )
+                create_sponsor.save()
+                get_fest.sponsor.add(create_sponsor.id)
 
 
         requested_data[1]["image"] = utils.save_to_file(requested_data[1]["image"], utils.replace_str_with_us(requested_data[1]["name"]))
