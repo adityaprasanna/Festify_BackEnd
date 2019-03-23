@@ -120,7 +120,7 @@ class FestDislike(APIView):
 				"event_coordinator": get_event.event_coordinator,
 				"event_date": get_event.event_date,
 				"event_time": get_event.event_time,
-				"ticket_id": "123",
+				# "ticket_id": "123",
 				"ticket_price": get_event.ticket_price,
 				"booking_date": obj.created.strftime('%Y-%m-%d'),
 			}

@@ -45,6 +45,7 @@ class FestDetails(ListAPIView):
     serializer_class = FestSerializer
 
     def get_queryset(self):
+        print(12312312312)
         queryset = Fest.objects.all()
         fest_id = self.request.query_params.get('festid', None)
         if fest_id is not None:
@@ -55,7 +56,7 @@ class FestDetails(ListAPIView):
 class FestCreate(APIView):
 
     def post(self, request, format=None):
-
+        print("123")
         requested_data = json.loads(request.body)
 
         username = requested_data[0]["userid"]
@@ -121,6 +122,7 @@ class FestCreate(APIView):
         for sponsor in sponsors:
             name = sponsor.get('evtSpnName')
             picture = sponsor.get('picture')
+            picture = utils.save_to_file(picture, utils.replace_str_with_us(name))
             caption = sponsor.get('caption')
             s = Sponsor.objects.create(
                 sponsor_name=name,
@@ -199,9 +201,13 @@ class FestUpdate(APIView):
 
         sponsors = requested_data[1]["event_sponser"]
         for sponsor in sponsors:
+            picture = sponsor.get('picture')
+            evtSpnName = sponsor.get('evtSpnName')
+            picture = utils.save_to_file(picture, utils.replace_str_with_us(evtSpnName))
+            
             Sponsor.objects.filter(id=sponsor.get('id')).update(
-                sponsor_name=sponsor.get('evtSpnName'),
-                sponsor_picture=sponsor.get('picture'),
+                sponsor_name=evtSpnName,
+                sponsor_picture=picture,
                 caption=sponsor.get('caption')
             )
 
@@ -280,3 +286,19 @@ class FestLiked(APIView):
         Fest.objects.filter(id=fest_id).update(total_likes=likes_count)
 
         return Response({"msg": msg}, status=status.HTTP_200_OK)
+
+
+class EventDelete(APIView):
+
+    def delete(self, request, format=None):
+        event = Event.objects.get(id=request.GET['event_id'])
+        event.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class SponsorDelete(APIView):
+
+    def delete(self, request, format=None):
+        sponsor = Sponsor.objects.get(id=request.GET['sponsor_id'])
+        sponsor.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
