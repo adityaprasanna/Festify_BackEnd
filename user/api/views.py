@@ -1,5 +1,6 @@
 import sys
 import json
+import traceback
 
 from django.utils import timezone
 from django.contrib.auth import authenticate
@@ -134,5 +135,5 @@ class FestDislike(APIView):
 
 			return Response(result_set, status=status.HTTP_200_OK)
 		except Exception:
-			print(Exception)
+			traceback.print_exc()
 			return Response({"msg": "something went wrong.", "status": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
