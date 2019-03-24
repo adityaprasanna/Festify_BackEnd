@@ -115,20 +115,24 @@ class FestDislike(APIView):
 			events_booked_data = []
 			for obj in events_booked:
 				print("obj.event_id", obj.event_id)
-				get_event = Event.objects.get(id = obj.event_id)
+				try:
+					get_event = Event.objects.get(id = obj.event_id)
+					event = {
+						"id": get_event.id,
+						"name": get_event.event_name,
+						"event_type": get_event.event_type,
+						"event_coordinator": get_event.event_coordinator,
+						"event_date": get_event.event_date,
+						"event_time": get_event.event_time,
+						# "ticket_id": "123",
+						"ticket_price": get_event.ticket_price,
+						"booking_date": obj.created.strftime('%Y-%m-%d'),
+					}
+					events_booked_data.append(event)
+				except:
+					pass
 				print("get_event", get_event.id, get_event.event_name, get_event.ticket_price)
-				event = {
-					"id": get_event.id,
-					"name": get_event.event_name,
-					"event_type": get_event.event_type,
-					"event_coordinator": get_event.event_coordinator,
-					"event_date": get_event.event_date,
-					"event_time": get_event.event_time,
-					# "ticket_id": "123",
-					"ticket_price": get_event.ticket_price,
-					"booking_date": obj.created.strftime('%Y-%m-%d'),
-				}
-				events_booked_data.append(event)
+
 
 			result_set = {
 				"liked_fests": fests_liked_data,
