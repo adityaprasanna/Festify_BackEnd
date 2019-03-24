@@ -138,7 +138,20 @@ class FestDislike(APIView):
 				"booked_events": events_booked_data,
 			}
 
-			return Response(result_set, status=status.HTTP_200_OK)
+			result_set = {
+				"liked_fests": [],
+				"booked_events": [],
+				"msg": "something went wrong.",
+				"status": "failed"
+			}
+
+			return Response(result_set, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 		except Exception:
 			traceback.print_exc()
-			return Response({"msg": "something went wrong.", "status": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+			result_set = {
+				"liked_fests": [],
+				"booked_events": [],
+				"msg": "something went wrong.",
+				"status": "failed"
+			}
+			return Response(result_set, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
