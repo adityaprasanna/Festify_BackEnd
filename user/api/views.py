@@ -114,7 +114,9 @@ class FestDislike(APIView):
 
 			events_booked_data = []
 			for obj in events_booked:
+				print("obj.event_id", obj.event_id)
 				get_event = Event.objects.get(id = obj.event_id)
+				print("get_event", get_event.id, get_event.event_name, get_event.ticket_price)
 				event = {
 					"id": get_event.id,
 					"name": get_event.event_name,
