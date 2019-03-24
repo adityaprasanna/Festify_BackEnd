@@ -1,5 +1,6 @@
 import base64
 import re
+import os
 
 from django.conf import settings
 
@@ -9,10 +10,18 @@ def save_to_file(img_string, name):
         img_string = img_string.split('base64,')[1]
         img_string = bytearray(img_string, 'utf-8')
         filename = settings.UPLOADS_DIR + name + '.jpg'
+
+        if os.path.exists("demofile.txt"):
+            os.remove("demofile.txt")
+        else:
+            print("The file does not exist")
+
+
         with open(filename, 'wb') as f:
             f.write(base64.decodebytes(img_string))
             f.close()
-        return '/uploads/' + name + '.jpg'
+            print(img_string)
+            return '/uploads/' + name + '.jpg'
     return img_string
 
 
