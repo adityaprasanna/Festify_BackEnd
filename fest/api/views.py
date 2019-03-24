@@ -45,7 +45,6 @@ class FestDetails(ListAPIView):
     serializer_class = FestSerializer
 
     def get_queryset(self):
-        print(12312312312)
         queryset = Fest.objects.all()
         fest_id = self.request.query_params.get('festid', None)
         if fest_id is not None:
@@ -56,7 +55,6 @@ class FestDetails(ListAPIView):
 class FestCreate(APIView):
 
     def post(self, request, format=None):
-        print("123")
         requested_data = json.loads(request.body)
 
         username = requested_data[0]["userid"]
@@ -65,8 +63,8 @@ class FestCreate(APIView):
 
         fest_name = requested_data[1]["name"]
         image = requested_data[1]["image"]
-        description = requested_data[1]["description"]  # change
-        fest_type = requested_data[1]["fest_type"]  # change
+        description = requested_data[1]["description"]
+        fest_type = requested_data[1]["fest_type"]
         start_date = requested_data[1]["start_date"]
         end_date = requested_data[1]["end_date"]
         website = requested_data[1]["website"]
@@ -97,21 +95,21 @@ class FestCreate(APIView):
         for event in events:
             name = event.get('eventName')
             # rule = event.get('rule')
-            etype = event.get('event_type')  # change
-            description = event.get('event_description')  # change
-            coordinator = event.get('event_coordinator')  # change
-            date = event.get('event_date')  # change
-            time = event.get('event_time')  # change
+            etype = event.get('event_type')
+            description = event.get('event_description')
+            coordinator = event.get('event_coordinator')
+            date = event.get('event_date')
+            time = event.get('event_time')
             ticket = event.get('ticket_price')
 
             e = Event.objects.create(
                 event_name=name,
                 # event_rules = rule,
-                event_type=etype,  # change
-                event_description=description,  # change
-                event_coordinator=coordinator,  # change
-                event_date=date,  # change
-                event_time=time,  # change
+                event_type=etype,
+                event_description=description,
+                event_coordinator=coordinator,
+                event_date=date,
+                event_time=time,
                 ticket_price=ticket,
             )
             e.save()
@@ -137,8 +135,8 @@ class FestCreate(APIView):
                 organizer=get_org,
                 name=fest_name,
                 image=image,
-                description=description,  # change
-                fest_type=fest_type,  # change
+                description=description,
+                fest_type=fest_type,
                 start_date=start_date,
                 end_date=end_date,
                 website=website,
@@ -194,22 +192,22 @@ class FestUpdate(APIView):
                 Event.objects.filter(id=event_id).update(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  # change
-                    event_description=event.get('event_description'),  # change
-                    event_coordinator=event.get('event_coordinator'),  # change
-                    event_date=event.get('event_date'),  # change
-                    event_time=event.get('event_time'),  # change
+                    event_type=event.get('event_type'),  
+                    event_description=event.get('event_description'),  
+                    event_coordinator=event.get('event_coordinator'),  
+                    event_date=event.get('event_date'),  
+                    event_time=event.get('event_time'),  
                     ticket_price=event.get('ticket_price'),
                 )
             else:
                 create_event = Event.objects.create(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  # change
-                    event_description=event.get('event_description'),  # change
-                    event_coordinator=event.get('event_coordinator'),  # change
-                    event_date=event.get('event_date'),  # change
-                    event_time=event.get('event_time'),  # change
+                    event_type=event.get('event_type'),  
+                    event_description=event.get('event_description'),  
+                    event_coordinator=event.get('event_coordinator'),  
+                    event_date=event.get('event_date'),  
+                    event_time=event.get('event_time'),
                     ticket_price=event.get('ticket_price')
                 )
                 create_event.save()
@@ -244,8 +242,8 @@ class FestUpdate(APIView):
         Fest.objects.filter(id=requested_data[1]["id"]).update(
             name=requested_data[1]["name"],
             image=requested_data[1]["image"],
-            description=requested_data[1]["description"],  # change
-            fest_type=requested_data[1]["fest_type"],  # change
+            description=requested_data[1]["description"],
+            fest_type=requested_data[1]["fest_type"], 
             start_date=requested_data[1]["start_date"],
             end_date=requested_data[1]["end_date"],
             website=requested_data[1]["website"],
