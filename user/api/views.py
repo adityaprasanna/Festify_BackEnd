@@ -131,7 +131,6 @@ class FestDislike(APIView):
 					events_booked_data.append(event)
 				except:
 					pass
-				print("get_event", get_event.id, get_event.event_name, get_event.ticket_price)
 
 
 			result_set = {
