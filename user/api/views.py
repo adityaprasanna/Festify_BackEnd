@@ -94,41 +94,45 @@ class UserLogin(APIView):
 class FestDislike(APIView):
 
 	def get(self, request, format=None):
-		get_user = CustomUser.objects.get(email = request.GET['email'])
-		get_user_profile = UserProfile.objects.get(user = get_user)
-		fests_liked = get_user_profile.fest_liked.all()
-		events_booked = Payment.objects.filter(email = request.GET['email'])
+		try:
+			get_user = CustomUser.objects.get(email = request.GET['email'])
+			get_user_profile = UserProfile.objects.get(user = get_user)
+			fests_liked = get_user_profile.fest_liked.all()
+			events_booked = Payment.objects.filter(email = request.GET['email'])
 
-		fests_liked_data = []
-		for fest_obj in fests_liked:
-			get_fest = Fest.objects.get(id = fest_obj.id)
-			fest = {
-				"id": get_fest.id,
-				"name": get_fest.name,
-				# "image": get_fest.image,
-				"date": get_fest.start_date,
+			fests_liked_data = []
+			for fest_obj in fests_liked:
+				get_fest = Fest.objects.get(id = fest_obj.id)
+				fest = {
+					"id": get_fest.id,
+					"name": get_fest.name,
+					# "image": get_fest.image,
+					"date": get_fest.start_date,
+				}
+				fests_liked_data.append(fest)
+
+			events_booked_data = []
+			for obj in events_booked:
+				get_event = Event.objects.get(id = obj.event_id)
+				event = {
+					"id": get_event.id,
+					"name": get_event.event_name,
+					"event_type": get_event.event_type,
+					"event_coordinator": get_event.event_coordinator,
+					"event_date": get_event.event_date,
+					"event_time": get_event.event_time,
+					# "ticket_id": "123",
+					"ticket_price": get_event.ticket_price,
+					"booking_date": obj.created.strftime('%Y-%m-%d'),
+				}
+				events_booked_data.append(event)
+
+			result_set = {
+				"liked_fests": fests_liked_data,
+				"booked_events": events_booked_data,
 			}
-			fests_liked_data.append(fest)
 
-		events_booked_data = []
-		for obj in events_booked:
-			get_event = Event.objects.get(id = obj.fest_id)
-			event = {
-				"id": get_event.id,
-				"name": get_event.event_name,
-				"event_type": get_event.event_type,
-				"event_coordinator": get_event.event_coordinator,
-				"event_date": get_event.event_date,
-				"event_time": get_event.event_time,
-				# "ticket_id": "123",
-				"ticket_price": get_event.ticket_price,
-				"booking_date": obj.created.strftime('%Y-%m-%d'),
-			}
-			events_booked_data.append(event)
-
-		result_set = {
-            "liked_fests": fests_liked_data,
-            "booked_events": events_booked_data,
-        }
-
-		return Response(result_set, status=status.HTTP_200_OK)
+			return Response(result_set, status=status.HTTP_200_OK)
+		except Exception:
+			print(Exception)
+			return Response({"msg": "something went wrong.", "status": "failed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
