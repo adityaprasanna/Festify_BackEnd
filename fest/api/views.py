@@ -63,7 +63,7 @@ class FestCreate(APIView):
 
         fest_name = requested_data[1]["name"]
         image = requested_data[1]["image"]
-        description = requested_data[1]["description"]
+        fest_description = requested_data[1]["description"]
         fest_type = requested_data[1]["fest_type"]
         start_date = requested_data[1]["start_date"]
         end_date = requested_data[1]["end_date"]
@@ -135,7 +135,7 @@ class FestCreate(APIView):
                 organizer=get_org,
                 name=fest_name,
                 image=image,
-                description=description,
+                description=fest_description,
                 fest_type=fest_type,
                 start_date=start_date,
                 end_date=end_date,
