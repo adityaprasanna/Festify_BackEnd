@@ -22,6 +22,7 @@ from rest_framework.decorators import api_view
 from .models import Payment
 from organization.models import Organization
 from fest.models import Fest, Event
+from utilities import utils
 
 
 def make_payment(email, first_name, last_name, contact, amount, host):
@@ -125,6 +126,8 @@ class PaymentGateway(APIView):
 		payment_obj.save()
 		payment_obj = Payment.objects.get(transaction_id = txnid)
 		ticket_id = "p"+str(payment_obj.id)+"f"+str(fest_id)+"c"+str(org_id)+"e"+str(event_id)
+		ticket_id = utils.generate_ticket_id(ticket_id)
+
 		Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
 		print(payment_obj)
 		return Response([{"posted":posted, "ticket_id": ticket_id, "hashh":hashh, "MERCHANT_KEY":MERCHANT_KEY, "txnid":txnid, "hash_string":hash_string,
@@ -226,15 +229,20 @@ def thankyou(request):
 			"fest_name": fest.name,
 			"event_name": event.event_name,
 			"event_time": event.event_time,
-			"ticket_price": float(rec.amount)
+			"ticket_price": float(rec.amount),
+			"ticket_id": rec.ticket_id
 		}
 
 	organization = Organization.objects.get(id = fest.organizer.id)
 	organization_name = organization.name
+	fest_name = payment_data["fest_name"]
+	event_name = payment_data["event_name"]
+	event_time = payment_data["event_time"]
 
-	ticket_id = "p"+str(payment_id)+"f"+str(fest.id)+"c"+str(organization.id)+"e"+str(event.id)
-	Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
-	payment_data["ticket_id"] = ticket_id
+	# ticket_id = "p"+str(payment_id)+"f"+str(fest.id)+"c"+str(organization.id)+"e"+str(event.id)
+	# Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
+	# payment_data["ticket_id"] = ticket_id
+	ticket_id = payment_data["ticket_id"]
 	""" Mail sending with template """
 	subject = "{} {} please check your booking details".format(payment_data.get("first_name"), payment_data.get("last_name"))
 	from_email = settings.EMAIL_HOST_USER
