@@ -75,6 +75,7 @@ class PaymentGateway(APIView):
 		email = requested_data['email']
 		fest_id = requested_data['fest_id']
 		event_id = requested_data['event_id']
+		event_name = requested_data['event_name']
 		amount = float(requested_data['ticket_price'])
 		amount = str(amount)
 		host = requested_data['host']
@@ -115,14 +116,18 @@ class PaymentGateway(APIView):
 			login_type = "F",
 			fest_id = fest_id,
 			event_id = event_id,
+			event_name = event_name,
 			org_id = org_id,
 			amount = amount,
 			transaction_id = txnid,
 			status = "I"
 		)
 		payment_obj.save()
-
-		return Response([{"posted":posted, "hashh":hashh, "MERCHANT_KEY":MERCHANT_KEY, "txnid":txnid, "hash_string":hash_string,
+		payment_obj = Payment.objects.get(transaction_id = txnid)
+		ticket_id = "p"+str(payment_obj.id)+"f"+str(fest_id)+"c"+str(org_id)+"e"+str(event_id)
+		Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
+		print(payment_obj)
+		return Response([{"posted":posted, "ticket_id": ticket_id, "hashh":hashh, "MERCHANT_KEY":MERCHANT_KEY, "txnid":txnid, "hash_string":hash_string,
 			"action":PAYU_BASE_URL}])
 
 
@@ -230,7 +235,6 @@ def thankyou(request):
 	ticket_id = "p"+str(payment_id)+"f"+str(fest.id)+"c"+str(organization.id)+"e"+str(event.id)
 	Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
 	payment_data["ticket_id"] = ticket_id
-
 	""" Mail sending with template """
 	subject = "{} {} please check your booking details".format(payment_data.get("first_name"), payment_data.get("last_name"))
 	from_email = settings.EMAIL_HOST_USER

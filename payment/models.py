@@ -3,12 +3,13 @@ from django.db import models
 
 class Payment(models.Model):
 
-	first_name = models.CharField("User First Name", max_length=20, blank=True, default='')
-	last_name = models.CharField("User Last Name", max_length=20, blank=True, default='')
+	first_name = models.CharField("User First Name", max_length=50, blank=True, default='')
+	last_name = models.CharField("User Last Name", max_length=50, blank=True, default='')
 	email = models.EmailField("User email", blank=True, default='')
 	phone = models.CharField("User contact", max_length=20, blank=True, default='')
 	login_type = models.CharField("Social Login Type", max_length=4, blank=True, default='')
 	fest_id = models.IntegerField("Fest ID", blank=True, default='')
+	event_name = models.CharField("Event Name", max_length=50, blank=True, default='')
 	event_id = models.IntegerField("Event ID", blank=True, default='')
 	org_id = models.IntegerField("Organization ID", blank=True, default='')
 	amount = models.DecimalField("Payment Amount",  max_digits=19, 
