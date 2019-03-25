@@ -129,7 +129,6 @@ class PaymentGateway(APIView):
 		ticket_id = utils.generate_ticket_id(ticket_id)
 
 		Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
-		print(payment_obj)
 		return Response([{"posted":posted, "ticket_id": ticket_id, "hashh":hashh, "MERCHANT_KEY":MERCHANT_KEY, "txnid":txnid, "hash_string":hash_string,
 			"action":PAYU_BASE_URL}])
 
@@ -237,7 +236,7 @@ def thankyou(request):
 	organization_name = organization.name
 	fest_name = payment_data["fest_name"]
 	event_name = payment_data["event_name"]
-	event_time = payment_data["event_time"]
+	event_time = str(payment_data["event_time"])
 
 	# ticket_id = "p"+str(payment_id)+"f"+str(fest.id)+"c"+str(organization.id)+"e"+str(event.id)
 	# Payment.objects.filter(transaction_id = txnid).update(ticket_id = ticket_id)
