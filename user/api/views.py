@@ -74,15 +74,18 @@ class UserLogin(APIView):
 
 		events_booked_data = []
 		for obj in events_booked:
-			get_event = Event.objects.get(id = obj.fest_id)
-			event = {
-				"id": get_event.id,
-				"name": get_event.event_name,
-				"ticket_id": "123",
-				"ticket_price": get_event.ticket_price,
-				"booking_date": obj.created.strftime('%Y-%m-%d'),
-			}
-			events_booked_data.append(event)
+			try:
+				get_event = Event.objects.get(id = obj.event_id)
+				event = {
+					"id": get_event.id,
+					"name": get_event.event_name,
+					"ticket_id": "123",
+					"ticket_price": get_event.ticket_price,
+					"booking_date": obj.created.strftime('%Y-%m-%d'),
+				}
+				events_booked_data.append(event)
+			except:
+				pass
 
 		result_set = {
 		"liked_fests": fests_liked_data,
