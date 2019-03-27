@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
+from utilities import utils
 from ..models import Organization
 from user.models import CustomUser
 from fest.models import Fest
@@ -58,7 +59,7 @@ class OrganizationCreate(APIView):
             org_category = requested_data["org_category"]
             org_name = requested_data["name"]
             org_address = requested_data["address"]
-            org_image = requested_data["image"]
+            org_image = utils.save_to_file(requested_data["image"], utils.replace_str_with_us(org_name))
             org_description = requested_data["description"]
             website = requested_data["website"]
             main_coordinator_name = requested_data["main_coordinator_name"]

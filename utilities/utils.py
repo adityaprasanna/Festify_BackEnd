@@ -11,10 +11,11 @@ def save_to_file(img_string, name):
         img_string = bytearray(img_string, 'utf-8')
         filename = settings.UPLOADS_DIR + name + '.jpg'
 
-        if os.path.exists("demofile.txt"):
-            os.remove("demofile.txt")
-        else:
-            print("The file does not exist")
+        #
+        # if os.path.exists("demofile.txt"):
+        #     os.remove("demofile.txt")
+        # else:
+        #     print("The file does not exist")
 
 
         with open(filename, 'wb') as f:
