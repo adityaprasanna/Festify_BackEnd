@@ -43,12 +43,10 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
-	print("123",instance)
 	if instance.is_normaluser:
 		UserProfile.objects.get_or_create(user = instance)
 
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
-	print("321",instance)
 	if instance.is_normaluser:
 		instance.user_profile.save()

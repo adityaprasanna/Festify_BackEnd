@@ -18,41 +18,6 @@ from .serializers import (
     PaymentSerializer,
 )
 
-# class PaymentDetails(ListAPIView):
-# 	""" Participant Details/Booked Ticket Details """
-# 	serializer_class = PaymentSerializer
-
-# 	def new(self):
-# 		pay_obj = Payment.objects.all()
-# 		print(pay_obj)
-# 		fest_id = self.request.query_params.get('festid', None)
-# 		print(fest_id)
-# 		if fest_id is not None:
-# 		    queryset = pay_obj.filter(id = fest_id)
-# 		    payment_list = []		    
-# 		    for obj in queryset:
-# 		        event_obj = Event.objects.get(id = obj.event_id)
-# 		        paid_data = {
-# 			    "name": obj.first_name,
-# 			    "Phone_no": obj.phone,
-# 			    "email": obj.email,
-# 			    "event_name": event_obj.event_name,
-# 			    "event_price": int(event_obj.ticket_price),
-# 			}
-# 		    payment_list.append(paid_data)
-# 		    print(payment_list)
-# 		    return payment_list
-
-# class PaymentDetails(ListAPIView):
-# 	""" Participant Details/Booked Ticket Details """
-# 	serializer_class = PaymentSerializer
-
-# 	def get_queryset(self):
-# 		queryset = Payment.objects.filter(id = self.request.query_params.get('festid'))
-# 		# eventset = Event.objects.all()
-# 		# newset = queryset | eventset
-# 		return queryset
-
 class PaymentDetails(ListAPIView):
     """ Participant Details/Booked Ticket Details """
     serializer_class = PaymentSerializer
