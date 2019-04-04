@@ -224,7 +224,7 @@ class OrganizationLogin(APIView):
         password = request.data['password']
         user = authenticate(username=userid, password=password)
         if not user:
-            return Response({"error": "Login failed. Please try again with correct credentials"},
+            return Response({"error": True, "message": "Login failed. Please try again with correct credentials"},
                             status=status.HTTP_401_UNAUTHORIZED)
 
         token, created = Token.objects.get_or_create(user=user)
