@@ -43,10 +43,8 @@ class UserLogin(APIView):
 			CustomUser.objects.filter(username = user[0].username).update(
 				last_login = last_login)
 
-		try:
-			get_user = CustomUser.objects.get(email = requested_data['email'])
-		except:
-			return Response({"msg": requested_data['email'] + " is not registered"}, status=status.HTTP_404_NOT_FOUND)
+
+		get_user = CustomUser.objects.get(email = requested_data['email'])
 
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		if not get_user_profile:
