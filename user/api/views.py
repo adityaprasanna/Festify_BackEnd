@@ -30,21 +30,23 @@ class UserLogin(APIView):
 				login_type = "G"
 			elif provider == "FACEBOOK":
 				login_type = "F"
-			base_user = CustomUser(username=email, 
+			base_user = CustomUser(username=email,
 				email=email, password=password, first_name=fname, last_name=lname,
 				is_organization=False, last_login = timezone.now())
 			base_user.save()
 			get_normaluser = CustomUser.objects.get(email=email)
 			pp = UserProfile.objects.filter(user = get_normaluser.id).update(
 				social_auth_login_type = login_type)
-			print("pp", pp)	
+			print("pp", pp)
 		else:
 			last_login = timezone.now()
 			CustomUser.objects.filter(username = user[0].username).update(
 				last_login = last_login)
 
-
-		get_user = CustomUser.objects.get(email = requested_data['email'])
+		try:
+			get_user = CustomUser.objects.get(email = requested_data['email'])
+		except:
+			return Response({"msg": requested_data['email'] + " is not registered"}, status=status.HTTP_404_NOT_FOUND)
 
 		get_user_profile = UserProfile.objects.filter(user = get_user)
 		if not get_user_profile:
@@ -56,7 +58,7 @@ class UserLogin(APIView):
 		elif provider == "FACEBOOK":
 			login_type = "F"
 		get_user_profile.update(social_auth_login_type = login_type)
-				
+
 		get_user_profile = get_user_profile.first()
 		fests_liked = get_user_profile.fest_liked.all()
 		events_booked = Payment.objects.filter(email = requested_data['email'])
