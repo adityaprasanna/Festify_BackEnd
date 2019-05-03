@@ -47,7 +47,7 @@ class OrganizationCreate(APIView):
         password = requested_data["org_password"]
         # CustomUser.objects.filter(username=username,email=email, is_normaluser=False).update_or_create(password=password)
         try:
-            base_user = CustomUser.objects.filter(username=username,
+            base_user = CustomUser(username=username,
                                                   email=email, is_normaluser=False)
             base_user.set_password(password)
             base_user.save()
