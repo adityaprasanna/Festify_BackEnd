@@ -45,11 +45,15 @@ class OrganizationCreate(APIView):
         username = requested_data["org_id"]
         email = requested_data["org_id"]
         password = requested_data["org_password"]
-        CustomUser.objects.filter(username=username,email=email, is_normaluser=False).update_or_create(password=password)
-        # base_user = CustomUser.objects.filter(username=username,
-        #                        email=email, is_normaluser=False)
-        # base_user.set_password(password)
-        # base_user.save()
+        # CustomUser.objects.filter(username=username,email=email, is_normaluser=False).update_or_create(password=password)
+        try:
+            base_user = CustomUser.objects.filter(username=username,
+                                                  email=email, is_normaluser=False)
+            base_user.set_password(password)
+            base_user.save()
+        except:
+            return Response({"msg": "failed", "error": "username " + username + " already exists"},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         get_org = CustomUser.objects.get(username=username)
         print("get organization", get_org.id)
