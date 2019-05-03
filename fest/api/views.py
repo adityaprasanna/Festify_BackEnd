@@ -46,9 +46,10 @@ class FestDetails(ListAPIView):
 
     def get_queryset(self):
         queryset = Fest.objects.all()
-        fest_id = self.request.query_params.get('festid', None)
-        if fest_id is not None:
-            queryset = queryset.filter(id=fest_id)
+        fest_name = str(self.request.query_params.get('festid', None))
+        fest_name.replace("%20"," ")
+        if fest_name is not None:
+            queryset = queryset.filter(name=fest_name)
         return queryset
 
 
@@ -192,21 +193,21 @@ class FestUpdate(APIView):
                 Event.objects.filter(id=event_id).update(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  
-                    event_description=event.get('event_description'),  
-                    event_coordinator=event.get('event_coordinator'),  
-                    event_date=event.get('event_date'),  
-                    event_time=event.get('event_time'),  
+                    event_type=event.get('event_type'),
+                    event_description=event.get('event_description'),
+                    event_coordinator=event.get('event_coordinator'),
+                    event_date=event.get('event_date'),
+                    event_time=event.get('event_time'),
                     ticket_price=event.get('ticket_price'),
                 )
             else:
                 create_event = Event.objects.create(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  
-                    event_description=event.get('event_description'),  
-                    event_coordinator=event.get('event_coordinator'),  
-                    event_date=event.get('event_date'),  
+                    event_type=event.get('event_type'),
+                    event_description=event.get('event_description'),
+                    event_coordinator=event.get('event_coordinator'),
+                    event_date=event.get('event_date'),
                     event_time=event.get('event_time'),
                     ticket_price=event.get('ticket_price')
                 )
@@ -243,7 +244,7 @@ class FestUpdate(APIView):
             name=requested_data[1]["name"],
             image=requested_data[1]["image"],
             description=requested_data[1]["description"],
-            fest_type=requested_data[1]["fest_type"], 
+            fest_type=requested_data[1]["fest_type"],
             start_date=requested_data[1]["start_date"],
             end_date=requested_data[1]["end_date"],
             website=requested_data[1]["website"],
