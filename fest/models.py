@@ -3,25 +3,30 @@ from organization.models import Organization
 
 
 class Event(models.Model):
+    """ Events under a fest are stored in this model. Not to be confused with Single-Page Event """
 
     event_name = models.CharField("event name", max_length=50, default='')
-    # event_rules = models.TextField("event rules")
-    event_type = models.CharField(max_length=30, default='') #change
-    event_description = models.TextField("event description", default='') #change
-    event_coordinator = models.TextField("event coordinator", default='') #change
-    event_date = models.DateTimeField(blank=True, null=True) #change
-    event_time = models.TimeField() #change
+    event_type = models.CharField(max_length=30, default='')
+    event_category = models.CharField(max_length=30, default='')
+    event_description = models.TextField("event description", default='')
+    event_coordinator = models.TextField("event coordinator", default='')
+    event_date = models.DateTimeField(blank=True, null=True)
+    event_time = models.TimeField()
     ticket_price = models.DecimalField("ticket price", max_digits=19, 
         decimal_places=10, default='')
-
+    total_payable = models.DecimalField("total price", max_digits=19, 
+        decimal_places=10, default='')
+    total_slots = models.IntegerField(default='')
+    available_slots = models.IntegerField(default='')
+    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.event_name
 
-
 class Sponsor(models.Model):
+    """ Fest, Single-Page Events and Mun use this model """
 
     sponsor_name = models.CharField("event sponsor name", max_length=50, blank=True, null=True, default='')
     sponsor_picture = models.TextField(blank=True, null=True)
@@ -35,12 +40,12 @@ class Sponsor(models.Model):
 
 
 class Fest(models.Model):
-    """ Model for organization """
+    """ Model for Fest """
 
     organizer = models.ForeignKey(Organization, default='', on_delete=models.CASCADE)
     name = models.CharField("fest name", max_length=50, default='')
-    description = models.TextField(default='')  #change
-    fest_type = models.CharField(max_length=30, default='') #change
+    description = models.TextField(default='')
+    fest_type = models.CharField(max_length=30, default='')
     image = models.TextField()
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
@@ -73,3 +78,55 @@ class Fest(models.Model):
 
     def __str__(self):
         return self.name
+
+class SingleEvent(models.Model):
+    """ Model for Single-Page Event """
+
+    sevent_name = models.CharField("event name", max_length=50, default='')
+    sevent_type = models.CharField(max_length=30, default='')
+    sevent_category = models.CharField(max_length=30, default='')
+    sevent_description = models.TextField("event description", default='')
+    sevent_coordinator = models.TextField("event coordinator", default='')
+    sevent_date = models.DateTimeField(blank=True, null=True)
+    sevent_time = models.TimeField()
+    sevent_amount = models.DecimalField("ticket price", max_digits=19, 
+        decimal_places=10, default='')
+    total_payable = models.DecimalField("total price", max_digits=19, 
+        decimal_places=10, default='')
+    total_slots = models.IntegerField()
+    available_slots = models.IntegerField()
+    
+    # sevent_sponsor = models.ManyToManyField(Sponsor, blank=True, related_name='fest_sponsor')
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.sevent_name
+
+class Mun(models.Model):
+    """ Model for MUN """
+
+    mun_name = models.CharField("mun name", max_length=50, default='')
+    mun_description = models.TextField("event description", default='')
+    mun_venue = models.CharField("venue", max_length=50, default='')
+    mun_coordinator = models.TextField("event coordinator", default='')
+
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    mun_time = models.TimeField()
+
+    mun_amount = models.DecimalField("ticket price", max_digits=19, 
+        decimal_places=10, default='')
+    total_payable = models.DecimalField("total price", max_digits=19, 
+        decimal_places=10, default='')
+    total_slots = models.IntegerField()
+    available_slots = models.IntegerField()
+    
+    # mun_sponsor = models.ManyToManyField(Sponsor, blank=True, related_name='fest_sponsor')
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.mun_name

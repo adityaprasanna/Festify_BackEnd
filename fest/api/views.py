@@ -46,9 +46,10 @@ class FestDetails(ListAPIView):
 
     def get_queryset(self):
         queryset = Fest.objects.all()
-        fest_id = self.request.query_params.get('festid', None)
-        if fest_id is not None:
-            queryset = queryset.filter(id=fest_id)
+        fest_name = str(self.request.query_params.get('festid', None))
+        fest_name.replace("%20"," ")
+        if fest_name is not None:
+            queryset = queryset.filter(name=fest_name)
         return queryset
 
 

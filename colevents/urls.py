@@ -15,7 +15,7 @@ urlpatterns = [
     path('api/fest/', include(('fest.urls', 'fest'), namespace='fest')),
     path('api/user/', include(('user.urls', 'user'), namespace='user')),
     path('api/payment/', include(('payment.urls', 'payment'), namespace='payment')),
-
+    path('api/blog/', include(('blog.urls','blog'), namespace='blog')),
 ]
 
 if settings.DEBUG:
