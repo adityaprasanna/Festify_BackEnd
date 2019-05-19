@@ -20,7 +20,7 @@ class Event(TimeStampedModel):
     total_slots = models.IntegerField(default=10)
     available_slots = models.IntegerField(default=10)
 
-    # event_images = models.ForeignKey(File, related_name="event_files", on_delete=models.SET_NULL, null=True)
+    event_images = models.ForeignKey(File, related_name="event_files", on_delete=models.SET_NULL, null=True)
 
     @property
     def event_id(self):

@@ -8,6 +8,4 @@ class File(TimeStampedModel):
     """ Model for Fest """
 
     file_name = models.FilePathField("file_name", blank=True, null=True, default=None, path=settings.UPLOADS_DIR)
-
-    def __str__(self):
-        return self.file_name
+    file_type = models.CharField("file_type", blank=True, null=True, default='', max_length=25)

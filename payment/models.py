@@ -12,8 +12,8 @@ class Payment(models.Model):
 	event_name = models.CharField("Event Name", max_length=50, blank=True, default='')
 	event_id = models.IntegerField("Event ID", blank=True, default='')
 	org_id = models.IntegerField("Organization ID", blank=True, default='')
-	amount = models.DecimalField("Payment Amount",  max_digits=19, 
-		decimal_places=10, blank=True, default='')
+	amount = models.DecimalField("Payment Amount",  max_digits=19,
+		decimal_places=10, blank=True, default=0.0)
 	transaction_id = models.CharField("Transaction ID", max_length=200, blank=True, default='')
 	ticket_id = models.CharField("Ticket ID", max_length=200, blank=True, default='')
 	INITIATE = 'I'

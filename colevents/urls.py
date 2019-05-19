@@ -15,7 +15,7 @@ urlpatterns = [
     path('api/payment/', include(('payment.urls', 'payment'), namespace='payment')),
     path('api/blog/', include(('blog.urls','blog'), namespace='blog')),
     path('api/event/', include(('Event.urls','event'), namespace='event')),
-    # path('api/file/', include(('File.urls','file'), namespace='file')),
+    path('api/file/', include(('File.urls','file'), namespace='file')),
 ]
 
 if settings.DEBUG:

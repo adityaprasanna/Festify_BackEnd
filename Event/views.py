@@ -15,13 +15,12 @@ class EventList(generics.ListCreateAPIView):
 
     def post(self, request, **kwargs):
         request_data = request.data
-        events_created = []
         if isinstance(request.data, list):
             for data in request_data:
                 serializer = self.get_serializer(data=data)
                 serializer.is_valid(raise_exception=True)
-                events_created.append(serializer.save())
-        return JsonResponse(events_created, status=status.HTTP_201_CREATED, safe=False)
+                serializer.save()
+        return self.get(request)
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):

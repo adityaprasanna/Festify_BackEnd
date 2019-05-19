@@ -98,9 +98,9 @@ class SingleEvent(models.Model):
     sevent_date = models.DateTimeField(blank=True, null=True)
     sevent_time = models.TimeField()
     sevent_amount = models.DecimalField("ticket price", max_digits=19,
-                                        decimal_places=10, default='')
+                                        decimal_places=10, default=0.0)
     total_payable = models.DecimalField("total price", max_digits=19,
-                                        decimal_places=10, default='')
+                                        decimal_places=10, default=0.0)
     total_slots = models.IntegerField()
     available_slots = models.IntegerField()
 
