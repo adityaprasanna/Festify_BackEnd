@@ -2,7 +2,9 @@ import json
 
 from rest_framework import status
 from rest_framework.generics import ListAPIView
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from organization.models import Organization
@@ -12,13 +14,16 @@ from .serializers import (
 )
 from ..models import Fest, Event, Sponsor
 from utilities import utils
+from Event.views import EventList, EventDetail
+
+from django.http import JsonResponse
 
 
 class HomePage(APIView):
     """ Most recent and most popular events
     usage: home page & also works for fest list page """
 
-    def get(request, format=None):
+    def get(self, request, format=None):
         fests = Fest.objects.filter(fest_delete=False).order_by('-created').order_by('-total_likes')
         fest_list = []
         for fest in fests:
@@ -36,6 +41,13 @@ class HomePage(APIView):
                 "total_likes": fest.total_likes
             }
             fest_list.append(fest_data)
+
+        data = request
+        # JSONParser().parse(request)
+        print(request.method, data)
+        print(request.query_params, data)
+        print(request.data, data)
+        # print(";;;", EventDetail.trial(request))
         return Response(fest_list, status=status.HTTP_200_OK)
 
 
@@ -47,9 +59,10 @@ class FestDetails(ListAPIView):
     def get_queryset(self):
         queryset = Fest.objects.all()
         fest_name = str(self.request.query_params.get('festid', None))
-        fest_name.replace("%20"," ")
+        fest_name.replace("%20", " ")
         if fest_name is not None:
             queryset = queryset.filter(name=fest_name)
+
         return queryset
 
 
@@ -193,27 +206,26 @@ class FestUpdate(APIView):
                 Event.objects.filter(id=event_id).update(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  
-                    event_description=event.get('event_description'),  
-                    event_coordinator=event.get('event_coordinator'),  
-                    event_date=event.get('event_date'),  
-                    event_time=event.get('event_time'),  
+                    event_type=event.get('event_type'),
+                    event_description=event.get('event_description'),
+                    event_coordinator=event.get('event_coordinator'),
+                    event_date=event.get('event_date'),
+                    event_time=event.get('event_time'),
                     ticket_price=event.get('ticket_price'),
                 )
             else:
                 create_event = Event.objects.create(
                     event_name=event.get('eventName'),
                     # event_rules = event.get('rule'),
-                    event_type=event.get('event_type'),  
-                    event_description=event.get('event_description'),  
-                    event_coordinator=event.get('event_coordinator'),  
-                    event_date=event.get('event_date'),  
+                    event_type=event.get('event_type'),
+                    event_description=event.get('event_description'),
+                    event_coordinator=event.get('event_coordinator'),
+                    event_date=event.get('event_date'),
                     event_time=event.get('event_time'),
                     ticket_price=event.get('ticket_price')
                 )
                 create_event.save()
                 get_fest.events.add(create_event.id)
-
 
         sponsors = requested_data[1]["event_sponser"]
         for sponsor in sponsors:
@@ -237,14 +249,14 @@ class FestUpdate(APIView):
                 create_sponsor.save()
                 get_fest.sponsor.add(create_sponsor.id)
 
-
-        requested_data[1]["image"] = utils.save_to_file(requested_data[1]["image"], utils.replace_str_with_us(requested_data[1]["name"]))
+        requested_data[1]["image"] = utils.save_to_file(requested_data[1]["image"],
+                                                        utils.replace_str_with_us(requested_data[1]["name"]))
 
         Fest.objects.filter(id=requested_data[1]["id"]).update(
             name=requested_data[1]["name"],
             image=requested_data[1]["image"],
             description=requested_data[1]["description"],
-            fest_type=requested_data[1]["fest_type"], 
+            fest_type=requested_data[1]["fest_type"],
             start_date=requested_data[1]["start_date"],
             end_date=requested_data[1]["end_date"],
             website=requested_data[1]["website"],
