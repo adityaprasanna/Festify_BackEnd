@@ -3,21 +3,8 @@ from django_extensions.db.models import TimeStampedModel
 
 from Event.models import Event
 from File.models import File
+from Sponsor.models import Sponsor
 from organization.models import Organization
-
-
-class Sponsor(models.Model):
-    """ Fest, Single-Page Events and Mun use this model """
-
-    sponsor_name = models.CharField("event sponsor name", max_length=50, blank=True, null=True, default='')
-    sponsor_picture = models.TextField(blank=True, null=True)
-    caption = models.CharField(max_length=200, blank=True, null=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.sponsor_name
 
 
 # class FestOld(models.Model):
@@ -66,7 +53,19 @@ class Fest(TimeStampedModel):
     """ Model for Fest """
 
     fest_name = models.CharField("fest name", max_length=50, default='')
-    fest_type = models.CharField(max_length=30, default='')
+    fest_type_choices = (
+        ("Annual", 'Annual'),
+        ("Cultural", 'Cultural'),
+        ("Commerce", 'Commerce'),
+        ("Tech", 'Tech'),
+        ("Dance", 'Dance'),
+        ("Conference", 'Conference'),
+        ("Entrepreneurship", 'Entrepreneurship'),
+        ("Literary", 'Literary'),
+        ("Media", 'Media'),
+        ("Mun", 'Mun')
+    )
+    fest_type = models.CharField(max_length=30, default='', blank=True, null=True, choices=fest_type_choices)
     # TODO: Ask Adi about category choices ??
     fest_category = models.CharField(max_length=30, default='')
     fest_venue = models.TextField(default='')
