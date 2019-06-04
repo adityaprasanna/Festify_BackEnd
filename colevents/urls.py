@@ -9,11 +9,13 @@ app_name = ('organization', 'fest', 'user', 'payment')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/organization/', include(('organization.urls', 'organization'), namespace='organization')),
+
     path('api/fest/', include(('fest.urls', 'fest'), namespace='fest')),
     path('api/user/', include(('user.urls', 'user'), namespace='user')),
     path('api/payment/', include(('payment.urls', 'payment'), namespace='payment')),
     path('api/blog/', include(('blog.urls','blog'), namespace='blog')),
+
+    path('api/organization/', include(('Organization.urls', 'Organization'), namespace='organization')),
     path('api/event/', include(('Event.urls','event'), namespace='event')),
     path('api/sponsor/', include(('Sponsor.urls','sponsor'), namespace='sponsor')),
     path('api/coordinator/', include(('Coordinator.urls','coordinator'), namespace='coordinator')),

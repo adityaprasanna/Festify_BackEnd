@@ -1,4 +1,3 @@
-import sys
 import json
 
 from django.contrib.auth import authenticate
@@ -7,7 +6,6 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
@@ -16,7 +14,7 @@ from ..models import Organization
 from user.models import CustomUser
 from fest.models import Fest
 
-from .serializers import (
+from Organization.serializers import (
     OrganizationSerializer,
 )
 
@@ -160,7 +158,7 @@ class OrganizationDashboard(APIView):
                         "event_date": eve_obj.event_date,
                         "event_time": eve_obj.event_time,
                         "ticket_price": round(eve_obj.ticket_price, 2)
-                        
+
                     }
                     event_data.append(event)
 

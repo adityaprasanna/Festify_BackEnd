@@ -4,7 +4,7 @@ from django_extensions.db.models import TimeStampedModel
 from Event.models import Event
 from File.models import File
 from Sponsor.models import Sponsor
-from organization.models import Organization
+from Organization.models import Organization
 
 
 # class FestOld(models.Model):

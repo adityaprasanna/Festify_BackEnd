@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
-from organization.models import Organization
+from Organization.models import Organization
 from user.models import CustomUser, UserProfile
 from .serializers import (
     FestSerializer,

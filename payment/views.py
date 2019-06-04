@@ -20,7 +20,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 
 from .models import Payment
-from organization.models import Organization
+from Organization.models import Organization
 from fest.models import Fest, Event
 from utilities import utils
 
@@ -196,7 +196,7 @@ def failure(request):
 
 
 def sendSMS(apikey, numbers, message):
-    data =  urllib.parse.urlencode({'apikey': apikey, 
+    data =  urllib.parse.urlencode({'apikey': apikey,
     	'numbers': numbers, 'message' : message, 'sender': "FESTFY"})
     data = data.encode('utf-8')
     request = urllib.request.Request("https://api.textlocal.in/send/?")
