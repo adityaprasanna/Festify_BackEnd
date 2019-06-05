@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from utilities import utils
 from ..models import Organization
 from user.models import CustomUser
-from fest.models import Fest
+from Fest.models import Fest
 
 from Organization.serializers import (
     OrganizationSerializer,

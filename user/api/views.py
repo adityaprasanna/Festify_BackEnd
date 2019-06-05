@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import CustomUser, UserProfile
-from fest.models import Fest, Event
+from Fest.models import Fest, Event
 from payment.models import Payment
 
 
@@ -30,14 +30,14 @@ class UserLogin(APIView):
 				login_type = "G"
 			elif provider == "FACEBOOK":
 				login_type = "F"
-			base_user = CustomUser(username=email, 
+			base_user = CustomUser(username=email,
 				email=email, password=password, first_name=fname, last_name=lname,
 				is_organization=False, last_login = timezone.now())
 			base_user.save()
 			get_normaluser = CustomUser.objects.get(email=email)
 			pp = UserProfile.objects.filter(user = get_normaluser.id).update(
 				social_auth_login_type = login_type)
-			print("pp", pp)	
+			print("pp", pp)
 		else:
 			last_login = timezone.now()
 			CustomUser.objects.filter(username = user[0].username).update(
@@ -56,7 +56,7 @@ class UserLogin(APIView):
 		elif provider == "FACEBOOK":
 			login_type = "F"
 		get_user_profile.update(social_auth_login_type = login_type)
-				
+
 		get_user_profile = get_user_profile.first()
 		fests_liked = get_user_profile.fest_liked.all()
 		events_booked = Payment.objects.filter(email = requested_data['email'])

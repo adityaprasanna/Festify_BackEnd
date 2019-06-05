@@ -21,7 +21,7 @@ from rest_framework.decorators import api_view
 
 from .models import Payment
 from Organization.models import Organization
-from fest.models import Fest, Event
+from Fest.models import Fest, Event
 from utilities import utils
 
 

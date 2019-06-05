@@ -2,21 +2,16 @@ import json
 
 from rest_framework import status
 from rest_framework.generics import ListAPIView
-from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from Organization.models import Organization
 from user.models import CustomUser, UserProfile
-from .serializers import (
+from Fest.serializers import (
     FestSerializer,
 )
 from ..models import Fest, Event, Sponsor
 from utilities import utils
-from Event.views import EventList, EventDetail
-
-from django.http import JsonResponse
 
 
 class HomePage(APIView):

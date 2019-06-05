@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -27,7 +26,7 @@ class UserProfile(models.Model):
         blank=True,
         default='',
     )
-    fest_liked = models.ManyToManyField('fest.Fest', blank=True, related_name='fest_liked')
+    # fest_liked = models.ManyToManyField('est.Fest', blank=True, related_name='fest_liked')
 
     created = models.DateTimeField(auto_now_add=True)
 

@@ -18,7 +18,6 @@ class EventList(generics.ListCreateAPIView):
         serializer.save()
 
     def post(self, request, **kwargs):
-        print(self.request)
         request_data = request.data
         if isinstance(request.data, list):
             for data in request_data:

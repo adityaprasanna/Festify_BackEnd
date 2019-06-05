@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
 from ..models import Payment
-from fest.models import Event
+from Fest.models import Event
 
 from .serializers import (
     PaymentSerializer,

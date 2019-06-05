@@ -1,17 +1,15 @@
-from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
 from django_extensions.db.models import TimeStampedModel
-from rest_framework.authtoken.models import Token
 
 from File.models import File
-from user.models import CustomUser
 from Coordinator.models import Coordinator
 
 
 class Organization(TimeStampedModel):
     """ Model for organization """
+    class Meta:
+        verbose_name = 'Organization'
+        verbose_name_plural = 'Organizations'
 
     org_type = models.CharField("organization_type", max_length=20, default='')
     org_category = models.CharField("organization_category", max_length=20, default='')
@@ -26,23 +24,5 @@ class Organization(TimeStampedModel):
 
     org_isLive = models.BooleanField(default=False)
 
-    class Meta:
-        verbose_name = 'organizer'
-        verbose_name_plural = 'organizers'
-
     def __str__(self):
-        return self.name
-
-#
-# @receiver(post_save, sender=CustomUser)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if instance.is_organization:
-#         Organization.objects.get_or_create(user=instance)
-#         token, created = Token.objects.get_or_create(user=instance)
-#         print(token.key)
-#
-#
-# @receiver(post_save, sender=CustomUser)
-# def save_user_profile(sender, instance, **kwargs):
-#     if instance.is_organization:
-#         instance.organization_profile.save()
+        return self.org_name

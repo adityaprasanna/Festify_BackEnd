@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 from .api import views
-from fest import views as v2
+from Fest import views as v2
 
 
 urlpatterns = (

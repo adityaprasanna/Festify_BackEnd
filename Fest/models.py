@@ -5,6 +5,7 @@ from Event.models import Event
 from File.models import File
 from Sponsor.models import Sponsor
 from Organization.models import Organization
+from Coordinator.models import Coordinator
 
 
 # class FestOld(models.Model):
@@ -52,7 +53,7 @@ from Organization.models import Organization
 class Fest(TimeStampedModel):
     """ Model for Fest """
 
-    fest_name = models.CharField("fest name", max_length=50, default='')
+    fest_name = models.CharField("fest name", max_length=50, blank=False, null=False)
     fest_type_choices = (
         ("Annual", 'Annual'),
         ("Cultural", 'Cultural'),
@@ -62,12 +63,15 @@ class Fest(TimeStampedModel):
         ("Conference", 'Conference'),
         ("Entrepreneurship", 'Entrepreneurship'),
         ("Literary", 'Literary'),
-        ("Media", 'Media'),
-        ("Mun", 'Mun')
+        ("Media", 'Media')
     )
     fest_type = models.CharField(max_length=30, default='', blank=True, null=True, choices=fest_type_choices)
-    # TODO: Ask Adi about category choices ??
-    fest_category = models.CharField(max_length=30, default='')
+    fest_category_choices = (
+        ("Fest", "Fest"),
+        ("Single Page Event", "Single Page Event"),
+        ("Mun", "Mun"),
+    )
+    fest_category = models.CharField(max_length=30, default='Fest', blank=True, choices=fest_category_choices)
     fest_venue = models.TextField(default='')
     fest_description = models.TextField(default='')
     fest_start_date = models.DateTimeField(blank=True, null=True)
@@ -76,11 +80,13 @@ class Fest(TimeStampedModel):
     fest_is_live = models.BooleanField(blank=True, default=False)
 
     fest_image = models.ForeignKey(File, related_name="fest_files", on_delete=models.SET_NULL, null=True)
-    fest_organizer = models.ForeignKey(Organization, default='', related_name="fest_organizer",
+    fest_organizer = models.ForeignKey(Organization, blank=False, related_name="fest_organizer",
                                        on_delete=models.CASCADE)
-    fest_events = models.ForeignKey(Event, related_name='fest_events', blank=True, on_delete=models.CASCADE)
+    fest_events = models.ForeignKey(Event, related_name='fest_events', blank=False, on_delete=models.CASCADE)
     fest_sponsor = models.ForeignKey(Sponsor, blank=True, related_name='fest_sponsor', on_delete=models.SET_NULL,
-                                     null=True)
+                                     null=True, default='')
+    fest_coordinator = models.ForeignKey(Coordinator, related_name="fest_coordinators", on_delete=models.CASCADE,
+                                         null=False)
 
     def __str__(self):
         return self.fest_name

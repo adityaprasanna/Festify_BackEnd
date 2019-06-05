@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models import Payment
-from fest.models import Event
+from Fest.models import Event
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -10,4 +10,3 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 
 
-    
