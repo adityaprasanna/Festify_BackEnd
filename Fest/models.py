@@ -74,19 +74,18 @@ class Fest(TimeStampedModel):
     fest_category = models.CharField(max_length=30, default='Fest', blank=True, choices=fest_category_choices)
     fest_venue = models.TextField(default='')
     fest_description = models.TextField(default='')
-    fest_start_date = models.DateTimeField(blank=True, null=True)
-    fest_end_date = models.DateTimeField(blank=True, null=True)
+    fest_start_date = models.BigIntegerField(blank=True, null=True)
+    fest_end_date = models.BigIntegerField(blank=True, null=True)
     fest_website = models.URLField(blank=True, null=True, default='')
     fest_is_live = models.BooleanField(blank=True, default=False)
 
     fest_image = models.ForeignKey(File, related_name="fest_files", on_delete=models.SET_NULL, null=True)
     fest_organizer = models.ForeignKey(Organization, blank=False, related_name="fest_organizer",
                                        on_delete=models.CASCADE)
-    fest_events = models.ForeignKey(Event, related_name='fest_events', blank=False, on_delete=models.CASCADE)
+    fest_events = models.ForeignKey(Event, related_name='fest_event', blank=False, on_delete=models.CASCADE)
     fest_sponsor = models.ForeignKey(Sponsor, blank=True, related_name='fest_sponsor', on_delete=models.SET_NULL,
                                      null=True, default='')
-    fest_coordinator = models.ForeignKey(Coordinator, related_name="fest_coordinators", on_delete=models.CASCADE,
-                                         null=False)
+    fest_coordinator = models.ForeignKey(Coordinator, related_name="fest_coordinator", on_delete=models.CASCADE, default='')
 
     def __str__(self):
         return self.fest_name

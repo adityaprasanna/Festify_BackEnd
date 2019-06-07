@@ -10,7 +10,7 @@ class CoordinatorList(generics.ListCreateAPIView):
     serializer_class = CoordinatorSerializer
 
     # this trailing comma is very important witout it it won't work
-    permission_classes = IsAuthenticated,
+    # permission_classes = IsAuthenticated,
 
     def create_and_save(self, data):
         serializer = self.get_serializer(data=data)
@@ -29,7 +29,7 @@ class CoordinatorList(generics.ListCreateAPIView):
 
 class CoordinatorDetail(generics.RetrieveUpdateDestroyAPIView):
     # this trailing comma is very important witout it it won't work
-    permission_classes = IsAuthenticated,
+    # permission_classes = IsAuthenticated,
 
     queryset = Coordinator.objects.all()
     serializer_class = CoordinatorSerializer

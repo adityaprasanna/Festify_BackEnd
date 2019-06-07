@@ -17,7 +17,6 @@ class OrganizationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-
 class OrganizationLogin(APIView):
     """
     POST:

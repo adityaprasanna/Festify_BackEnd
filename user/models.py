@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django_extensions.db.models import TimeStampedModel
 
 
 class CustomUser(AbstractUser):
@@ -10,29 +11,24 @@ class CustomUser(AbstractUser):
     is_organization = models.BooleanField(default=True)
 
 
-class UserProfile(models.Model):
+class UserProfile(TimeStampedModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True,
                                 related_name='user_profile')
 
-    GOOGLE = 'G'
-    FACEBOOK = 'F'
     social_auth_login_choices = (
-        (GOOGLE, 'Google'),
-        (FACEBOOK, 'Facebook'),
+        ('Google', 'Google'),
+        ('Facebook', 'Facebook'),
     )
     social_auth_login_type = models.CharField(
-        max_length=4,
+        max_length=10,
         choices=social_auth_login_choices,
         blank=True,
         default='',
     )
-    # fest_liked = models.ManyToManyField('est.Fest', blank=True, related_name='fest_liked')
-
-    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Person'
-        verbose_name_plural = 'People'
+        verbose_name = 'user'
+        verbose_name_plural = 'users'
 
     def __str__(self):
         if self.user.first_name:
