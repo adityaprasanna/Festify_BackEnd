@@ -1,7 +1,8 @@
-from django.urls import path
+from rest_framework_mongoengine.routers import DefaultRouter
+
 from Coordinator import views
 
-urlpatterns = [
-    path('', views.CoordinatorList.as_view(), name="get"),
-    path('<int:pk>', views.CoordinatorDetail.as_view(), name="put_delete_retrieve"),
-]
+
+router = DefaultRouter()
+router.register(r'^v1', views.CoordinatorViewSet, basename='coordinator')
+urlpatterns = router.urls

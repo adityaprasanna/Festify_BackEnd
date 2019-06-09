@@ -1,8 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework_mongoengine import generics
 
 from Event.models import Event
 from Event.serializers import EventSerializer

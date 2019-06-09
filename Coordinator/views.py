@@ -1,35 +1,21 @@
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated  # <-- Here
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_mongoengine import generics, viewsets
 
 from Coordinator.models import Coordinator
 from Coordinator.serializers import CoordinatorSerializer
 
 
-class CoordinatorList(generics.ListCreateAPIView):
+class CoordinatorViewSet(viewsets.ModelViewSet):
+    # this trailing comma is very important without it, it won't work
+    permission_classes = IsAuthenticated,
     queryset = Coordinator.objects.all()
     serializer_class = CoordinatorSerializer
 
-    # this trailing comma is very important witout it it won't work
-    # permission_classes = IsAuthenticated,
+    def get_serializer(self, *args, **kwargs):
+        if "data" in kwargs:
+            data = kwargs["data"]
 
-    def create_and_save(self, data):
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+            if isinstance(data, list):
+                kwargs["many"] = True
 
-    def post(self, request, **kwargs):
-        request_data = request.data
-        if isinstance(request.data, list):
-            for data in request_data:
-                self.create_and_save(data)
-        else:
-            self.create_and_save(request_data)
-        return self.get(request)
-
-
-class CoordinatorDetail(generics.RetrieveUpdateDestroyAPIView):
-    # this trailing comma is very important witout it it won't work
-    # permission_classes = IsAuthenticated,
-
-    queryset = Coordinator.objects.all()
-    serializer_class = CoordinatorSerializer
+        return super(viewsets.ModelViewSet, self).get_serializer(*args, **kwargs)

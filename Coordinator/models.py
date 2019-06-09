@@ -1,10 +1,9 @@
-from django.db import models
+# from django_extensions.mongodb.models import TimeStampedModel
+from mongoengine import fields, Document
+from utilities.extendedModels import TimeStampedModel
 
-from django_extensions.db.models import TimeStampedModel
 
-
-class Coordinator(TimeStampedModel):
-    coordinator_name = models.CharField(max_length=30, blank=False, null=False)
-    coordinator_phone = models.CharField(max_length=20, blank=False, null=False)
-    coordinator_email = models.EmailField(max_length=50, blank=True, null=True)
-
+class Coordinator(Document, TimeStampedModel):
+    coordinator_name = fields.StringField(max_length=30, blank=False, null=False)
+    coordinator_phone = fields.IntField(max_length=10, blank=False, null=False)
+    coordinator_email = fields.StringField(max_length=10, blank=False, null=False)

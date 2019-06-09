@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework_mongoengine import generics
 
 from Sponsor.models import Sponsor
 from Sponsor.serializers import SponsorSerializer

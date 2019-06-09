@@ -11,4 +11,4 @@ from .models import Fest
 #     search_fields = ('fest_name',)
 #
 
-admin.site.register(Fest)
+admin.register(Fest)

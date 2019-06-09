@@ -1,11 +1,9 @@
-from django.db import models
-from django_extensions.db.models import TimeStampedModel
-
-from colevents import settings
+from mongoengine import fields, Document
+from utilities.extendedModels import TimeStampedModel
 
 
-class File(TimeStampedModel):
+class File(Document, TimeStampedModel):
     """ Model for Fest """
 
-    file_name = models.FilePathField("file_name", blank=True, null=True, default=None, path=settings.UPLOADS_DIR)
-    file_type = models.CharField("file_type", blank=True, null=True, default='', max_length=25)
+    file_name = fields.StringField(null=True, default=None)
+    file_type = fields.StringField(null=True, default=None)

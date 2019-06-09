@@ -1,10 +1,11 @@
 from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
+from rest_framework import status
 from rest_framework.response import Response
 
 from File.models import File
 from File.serializers import FileSerializer
-from rest_framework import generics, status
+from rest_framework_mongoengine import generics
 
 from colevents import settings
 

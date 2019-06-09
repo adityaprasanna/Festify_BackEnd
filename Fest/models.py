@@ -1,59 +1,17 @@
-from django.db import models
-from django_extensions.db.models import TimeStampedModel
+from utilities.extendedModels import TimeStampedModel
+from mongoengine import fields, CASCADE, NULLIFY, Document
 
 from Event.models import Event
 from File.models import File
 from Sponsor.models import Sponsor
 from Organization.models import Organization
-from Coordinator.models import Coordinator
+# from Coordinator.models import Coordinator
 
 
-# class FestOld(models.Model):
-#     """ Model for Fest """
-#
-#     organizer = models.ForeignKey(Organization, default='', related_name="fest_yo", on_delete=models.CASCADE)
-#     name = models.CharField("fest name", max_length=50, default='')
-#     description = models.TextField(default='')
-#     fest_type = models.CharField(max_length=30, default='')
-#     image = models.TextField()
-#     start_date = models.DateTimeField(blank=True, null=True)
-#     end_date = models.DateTimeField(blank=True, null=True)
-#     website = models.URLField(blank=True, null=True, default='')
-#     social_media_pages = models.URLField(blank=True, null=True, default='')
-#     promo_video = models.TextField(blank=True, null=True)
-#     promo_video_thumbnail = models.TextField(blank=True, null=True,
-#                                              help_text='An image that will be used as a thumbnail.')
-#
-#     events = models.ForeignKey(Event, related_name='fest_events', blank=True, on_delete=models.CASCADE)
-#     sponsor = models.ManyToManyField(Sponsor, blank=True, related_name='fest_sponsor')
-#
-#     """ Fest Manager """
-#     manager_name = models.CharField("primary manager name", max_length=50, default='')
-#     manager_phone = models.CharField("primary manager contact", max_length=20, default='')
-#     manager_email = models.EmailField("primary manager email", default='')
-#
-#     sec_manager_name = models.CharField("secondary manager name", max_length=50, default='')
-#     sec_manager_phone = models.CharField("secondary manager contact", max_length=20, default='')
-#
-#     """ Account Details of Manager for Payment """
-#     account_holder_name = models.CharField("account holder name", max_length=50, default='')
-#     account_number = models.CharField("account number", max_length=50, default='')
-#     IFSC = models.CharField("IFSC code", max_length=50, default='')
-#
-#     total_likes = models.IntegerField("total likes", blank=True, null=True)
-#     fest_delete = models.BooleanField(default=False)
-#
-#     created = models.DateTimeField(auto_now_add=True)
-#     updated = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return self.name
-
-
-class Fest(TimeStampedModel):
+class Fest(Document, TimeStampedModel):
     """ Model for Fest """
 
-    fest_name = models.CharField("fest name", max_length=50, blank=False, null=False)
+    fest_name = fields.StringField("fest name", max_length=50, null=False)
     fest_type_choices = (
         ("Annual", 'Annual'),
         ("Cultural", 'Cultural'),
@@ -65,81 +23,79 @@ class Fest(TimeStampedModel):
         ("Literary", 'Literary'),
         ("Media", 'Media')
     )
-    fest_type = models.CharField(max_length=30, default='', blank=True, null=True, choices=fest_type_choices)
+    fest_type = fields.StringField(max_length=30, default='Annual', null=True, choices=fest_type_choices)
     fest_category_choices = (
         ("Fest", "Fest"),
         ("Single Page Event", "Single Page Event"),
         ("Mun", "Mun"),
     )
-    fest_category = models.CharField(max_length=30, default='Fest', blank=True, choices=fest_category_choices)
-    fest_venue = models.TextField(default='')
-    fest_description = models.TextField(default='')
-    fest_start_date = models.BigIntegerField(blank=True, null=True)
-    fest_end_date = models.BigIntegerField(blank=True, null=True)
-    fest_website = models.URLField(blank=True, null=True, default='')
-    fest_is_live = models.BooleanField(blank=True, default=False)
+    fest_category = fields.StringField(max_length=30, default='Fest', null=True, choices=fest_category_choices)
+    fest_venue = fields.StringField(default='')
+    fest_description = fields.StringField(default='')
+    fest_start_date = fields.StringField(null=True)
+    fest_end_date = fields.StringField(null=True)
+    fest_website = fields.URLField(null=True, default='')
+    fest_is_live = fields.BooleanField(default=False)
 
-    fest_image = models.ForeignKey(File, related_name="fest_files", on_delete=models.SET_NULL, null=True)
-    fest_organizer = models.ForeignKey(Organization, blank=False, related_name="fest_organizer",
-                                       on_delete=models.CASCADE)
-    fest_events = models.ForeignKey(Event, related_name='fest_event', blank=False, on_delete=models.CASCADE)
-    fest_sponsor = models.ForeignKey(Sponsor, blank=True, related_name='fest_sponsor', on_delete=models.SET_NULL,
-                                     null=True, default='')
-    fest_coordinator = models.ForeignKey(Coordinator, related_name="fest_coordinator", on_delete=models.CASCADE, default='')
+    fest_image = fields.ReferenceField(File, on_delete=NULLIFY, null=True)
+    fest_organizer = fields.ReferenceField(Organization, blank=False, on_delete=CASCADE)
+    fest_events = fields.ReferenceField(Event, blank=False, on_delete=CASCADE)
+    fest_sponsor = fields.ReferenceField(Sponsor, on_delete=NULLIFY, null=True, default='')
+    # fest_coordinator = fields.ReferenceField(Coordinator, on_delete=CASCADE, default='')
 
     def __str__(self):
         return self.fest_name
 
 
-class SingleEvent(models.Model):
+class SingleEvent(Document, TimeStampedModel):
     """ Model for Single-Page Event """
 
-    sevent_name = models.CharField("event name", max_length=50, default='')
-    sevent_type = models.CharField(max_length=30, default='')
-    sevent_category = models.CharField(max_length=30, default='')
-    sevent_description = models.TextField("event description", default='')
-    sevent_coordinator = models.TextField("event coordinator", default='')
-    sevent_date = models.DateTimeField(blank=True, null=True)
-    sevent_time = models.TimeField()
-    sevent_amount = models.DecimalField("ticket price", max_digits=19,
-                                        decimal_places=10, default=0.0)
-    total_payable = models.DecimalField("total price", max_digits=19,
-                                        decimal_places=10, default=0.0)
-    total_slots = models.IntegerField()
-    available_slots = models.IntegerField()
+    # sevent_name = fields.StringField("event name", max_length=50, default='')
+    # sevent_type = fields.StringField(max_length=30, default='')
+    # sevent_category = fields.StringField(max_length=30, default='')
+    # sevent_description = fields.StringField("event description", default='')
+    # sevent_coordinator = fields.StringField("event coordinator", default='')
+    # sevent_date = fields.DateTimeField(null=True)
+    # sevent_time = fields.TimeField()
+    # sevent_amount = fields.DecimalField("ticket price", max_digits=19,
+    #                                     decimal_places=10, default=0.0)
+    # total_payable = fields.DecimalField("total price", max_digits=19,
+    #                                     decimal_places=10, default=0.0)
+    # total_slots = fields.IntegerField()
+    # available_slots = fields.IntegerField()
+    #
+    # # sevent_sponsor = fields.ManyToManyField(Sponsor, related_name='fest_sponsor')
+    #
+    # created = fields.DateTimeField(auto_now_add=True)
+    # updated = fields.DateTimeField(auto_now=True)
+    #
+    # def __str__(self):
+    #     return self.sevent_name
 
-    # sevent_sponsor = models.ManyToManyField(Sponsor, blank=True, related_name='fest_sponsor')
 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.sevent_name
-
-
-class Mun(models.Model):
+class Mun(Document, TimeStampedModel):
     """ Model for MUN """
 
-    mun_name = models.CharField("mun name", max_length=50, default='')
-    mun_description = models.TextField("event description", default='')
-    mun_venue = models.CharField("venue", max_length=50, default='')
-    mun_coordinator = models.TextField("event coordinator", default='')
-
-    start_date = models.DateTimeField(blank=True, null=True)
-    end_date = models.DateTimeField(blank=True, null=True)
-    mun_time = models.TimeField()
-
-    mun_amount = models.DecimalField("ticket price", max_digits=19,
-                                     decimal_places=10, default='')
-    total_payable = models.DecimalField("total price", max_digits=19,
-                                        decimal_places=10, default='')
-    total_slots = models.IntegerField()
-    available_slots = models.IntegerField()
-
-    # mun_sponsor = models.ManyToManyField(Sponsor, blank=True, related_name='fest_sponsor')
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.mun_name
+    # mun_name = fields.StringField("mun name", max_length=50, default='')
+    # mun_description = fields.StringField("event description", default='')
+    # mun_venue = fields.StringField("venue", max_length=50, default='')
+    # mun_coordinator = fields.StringField("event coordinator", default='')
+    #
+    # start_date = fields.DateTimeField(null=True)
+    # end_date = fields.DateTimeField(null=True)
+    # mun_time = fields.TimeField()
+    #
+    # mun_amount = fields.DecimalField("ticket price", max_digits=19,
+    #                                  decimal_places=10, default='')
+    # total_payable = fields.DecimalField("total price", max_digits=19,
+    #                                     decimal_places=10, default='')
+    # total_slots = fields.IntegerField()
+    # available_slots = fields.IntegerField()
+    #
+    # # mun_sponsor = fields.ManyToManyField(Sponsor, related_name='fest_sponsor')
+    #
+    # created = fields.DateTimeField(auto_now_add=True)
+    # updated = fields.DateTimeField(auto_now=True)
+    #
+    # def __str__(self):
+    #     return self.mun_name
