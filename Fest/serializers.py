@@ -1,29 +1,20 @@
-from rest_framework import serializers
+from rest_framework_mongoengine import serializers
 
-from Event.models import Event
+from Coordinator.serializers import CoordinatorSerializer
 from Fest.models import Fest
-from Organization.models import Organization
+from Event.serializers import EventSerializer
+from File.serializers import FileSerializer
+from Organization.serializers import OrganizationSerializer
+from Sponsor.serializers import SponsorSerializer
 
 
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organization
-        fields = ('id', 'org_name')
-
-
-class FestSerializer(serializers.ModelSerializer):
-    # fest_events = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # fest_image = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # fest_sponsor = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # fest_coordinator = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
-    organizers = OrganizationSerializer(many=True, read_only=True)
-    # organizers = serializers.SlugRelatedField(
-    #     many=True,
-    #     queryset=Organization.objects.all(),
-    #     slug_field='id'
-    # )
+class FestSerializer(serializers.DocumentSerializer):
+    fest_events = EventSerializer
+    fest_image = FileSerializer(many=True)
+    fest_sponsor = SponsorSerializer
+    fest_coordinator = CoordinatorSerializer
+    fest_organizer = OrganizationSerializer
 
     class Meta:
         model = Fest
-        fields = ('id', 'organizers')
+        fields = "__all__"

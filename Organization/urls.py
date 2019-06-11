@@ -1,8 +1,7 @@
-from django.urls import path, include
+from rest_framework_mongoengine.routers import DefaultRouter
 
 from Organization import views
 
-urlpatterns = [
-    path('', views.OrganizationList.as_view(), name="get"),
-    path('<int:pk>', views.OrganizationDetail.as_view(), name="put_delete_retrieve"),
-]
+router = DefaultRouter()
+router.register(r'^v1', views.OrganizationViewSet, basename='organization')
+urlpatterns = router.urls

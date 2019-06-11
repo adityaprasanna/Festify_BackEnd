@@ -6,7 +6,7 @@ from File.models import File
 class Sponsor(Document, TimeStampedModel):
     """ Fest, Single-Page Events and Mun use this model """
 
-    sponsor_name = fields.StringField("event_sponsor_name", max_length=50, null=True, default='')
+    sponsor_name = fields.StringField(max_length=50, required=True)
     sponsor_picture = fields.ReferenceField(File, null=True, on_delete=CASCADE)
     sponsor_caption = fields.StringField(max_length=200, null=True)
 

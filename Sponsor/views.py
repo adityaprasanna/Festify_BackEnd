@@ -1,28 +1,22 @@
-from rest_framework_mongoengine import generics
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_mongoengine import viewsets
 
 from Sponsor.models import Sponsor
 from Sponsor.serializers import SponsorSerializer
 
 
-class SponsorList(generics.ListCreateAPIView):
+class SponsorViewSet(viewsets.ModelViewSet):
+    # this trailing comma is very important without it, it won't work
+    permission_classes = IsAuthenticated,
     queryset = Sponsor.objects.all()
     serializer_class = SponsorSerializer
 
-    def create_and_save(self, data):
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    def get_serializer(self, *args, **kwargs):
+        if "data" in kwargs:
+            data = kwargs["data"]
 
-    def post(self, request, **kwargs):
-        request_data = request.data
-        if isinstance(request.data, list):
-            for data in request_data:
-                self.create_and_save(data)
-        else:
-            self.create_and_save(request_data)
-        return self.get(request)
+            if isinstance(data, list):
+                kwargs["many"] = True
 
+        return super(viewsets.ModelViewSet, self).get_serializer(*args, **kwargs)
 
-class SponsorDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Sponsor.objects.all()
-    serializer_class = SponsorSerializer

@@ -1,7 +1,7 @@
-from django.urls import path
+from rest_framework_mongoengine.routers import DefaultRouter
 from File import views
 
-urlpatterns = [
-    path('', views.FileList.as_view(), name="get"),
-    path('<int:pk>', views.FileDetail.as_view(), name="put_delete_retrieve"),
-]
+
+router = DefaultRouter()
+router.register(r'^v1', views.FileViewSet, basename='file')
+urlpatterns = router.urls

@@ -13,7 +13,7 @@ class Event(Document, TimeStampedModel):
     event_category = fields.StringField(max_length=30, required=True)
     event_description = fields.StringField(required=True)
 
-    event_date_time = fields.StringField(max_length=20, null=True)
+    event_date_time = fields.StringField(null=True)
     event_venue = fields.StringField(max_length=100, null=True)
     ticket_price = fields.DecimalField(max_digits=19, decimal_places=10, default=0.0)
     total_payable = fields.DecimalField(max_digits=19,decimal_places=10, default=0.0)

@@ -1,7 +1,7 @@
-from django.urls import path
+from rest_framework_mongoengine.routers import DefaultRouter
+
 from Sponsor import views
 
-urlpatterns = [
-    path('', views.SponsorList.as_view(), name="get"),
-    path('<int:pk>', views.SponsorDetail.as_view(), name="put_delete_retrieve"),
-]
+router = DefaultRouter()
+router.register(r'^v1', views.SponsorViewSet, basename='coordinator')
+urlpatterns = router.urls

@@ -1,5 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_mongoengine import generics, viewsets
+from rest_framework_mongoengine import viewsets
 
 from Coordinator.models import Coordinator
 from Coordinator.serializers import CoordinatorSerializer
