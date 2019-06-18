@@ -37,11 +37,11 @@ class Fest(DynamicDocument, TimeStampedModel):
     fest_website = fields.URLField(null=True, default='')
     fest_is_live = fields.BooleanField(default=False)
 
-    fest_image = fields.ListField(EmbeddedDocument(File))
-    fest_organizer = fields.ListField(Organization, blank=False, on_delete=CASCADE)
-    fest_events = fields.ListField(Event, blank=False, on_delete=CASCADE)
-    fest_sponsor = fields.ListField(Sponsor, on_delete=NULLIFY, null=True, default='')
-    fest_coordinator = fields.ListField(Coordinator, on_delete=CASCADE, default='')
+    fest_image = fields.ListField(fields.ReferenceField(File, on_delete=CASCADE, null=False))
+    fest_organizer = fields.ListField(fields.ReferenceField(Organization, blank=False, on_delete=CASCADE))
+    fest_events = fields.ListField(fields.ReferenceField(Event, blank=False, on_delete=CASCADE))
+    fest_sponsor = fields.ListField(fields.ReferenceField(Sponsor, on_delete=NULLIFY, null=True, default=''))
+    fest_coordinator = fields.ListField(fields.ReferenceField(Coordinator, on_delete=CASCADE, default=''))
 
     def __str__(self):
         return self.fest_name

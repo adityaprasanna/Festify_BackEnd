@@ -10,7 +10,7 @@ from Sponsor.serializers import SponsorSerializer
 
 class FestSerializer(serializers.DocumentSerializer):
     fest_events = EventSerializer
-    fest_image = FileSerializer(many=True)
+    fest_image = FileSerializer
     fest_sponsor = SponsorSerializer
     fest_coordinator = CoordinatorSerializer
     fest_organizer = OrganizationSerializer
