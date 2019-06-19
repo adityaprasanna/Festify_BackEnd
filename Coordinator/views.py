@@ -7,7 +7,7 @@ from Coordinator.serializers import CoordinatorSerializer
 
 class CoordinatorViewSet(viewsets.ModelViewSet):
     # this trailing comma is very important without it, it won't work
-    permission_classes = IsAuthenticated,
+    # permission_classes = IsAuthenticated,
     queryset = Coordinator.objects.all()
     serializer_class = CoordinatorSerializer
 

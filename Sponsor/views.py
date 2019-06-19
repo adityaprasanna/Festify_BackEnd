@@ -7,7 +7,7 @@ from Sponsor.serializers import SponsorSerializer
 
 class SponsorViewSet(viewsets.ModelViewSet):
     # this trailing comma is very important without it, it won't work
-    permission_classes = IsAuthenticated,
+    # permission_classes = IsAuthenticated,
     queryset = Sponsor.objects.all()
     serializer_class = SponsorSerializer
 
