@@ -21,18 +21,8 @@ class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        print(instance)
-        for key, value in kwargs.items():
-            print ("%s == %s" %(key, value))
-        serializer = self.get_serializer(instance)
-        print(serializer)
-        return Response(serializer.data)
-
     def create(self, request, *args, **kwargs):
         uploaded_file = None
-        h = None
         try:
             file_list = request.FILES.getlist('file_name')
         except MultiValueDictKeyError:
