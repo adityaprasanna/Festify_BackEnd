@@ -38,7 +38,7 @@ class Fest(DynamicDocument, TimeStampedModel):
     fest_is_live = fields.BooleanField(default=False)
 
     fest_image = fields.ListField(fields.ReferenceField(File, on_delete=CASCADE, null=False))
-    fest_organizer = fields.ListField(fields.ReferenceField(Organization, blank=False, on_delete=CASCADE))
+    fest_organizer = fields.ReferenceField(Organization, blank=False, on_delete=CASCADE, required=True)
     fest_events = fields.ListField(fields.ReferenceField(Event, blank=False, on_delete=CASCADE))
     fest_sponsor = fields.ListField(fields.ReferenceField(Sponsor, on_delete=NULLIFY, null=True, default=''))
     fest_coordinator = fields.ListField(fields.ReferenceField(Coordinator, on_delete=CASCADE, default=''))

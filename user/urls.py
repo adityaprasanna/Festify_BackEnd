@@ -1,14 +1,13 @@
-from django.urls import path, include
-from .api import views
-from user import views as v2
-from rest_framework.authtoken.views import obtain_auth_token
+from django.urls import path
+# from .api import views
+from user import views
 
 urlpatterns = [
-    path('login/', views.UserLogin.as_view(), name='login'),
+    # path('login/', views.UserLogin.as_view(), name='login'),
 
-    path('login/v2/', obtain_auth_token, name='login_v2'),
-    path('login/v3/', v2.UserLogin.as_view(), name='login_v3'),
-    path('logout/v2/', v2.UserLogout.as_view(), name='logout_v2'),
+    path('login/v2/', views.UserLogin.as_view(), name='login_v2'),
+    path('logout/v2/', views.UserLogout.as_view(), name='logout_v2'),
+    path('create/v1/', views.Users.as_view(), name='create_user'),
 
-    path('dislike/', views.FestDislike.as_view(), name='dislike')
+    # path('dislike/', views.FestDislike.as_view(), name='dislike')
 ]

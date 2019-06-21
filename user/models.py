@@ -37,13 +37,13 @@ class UserProfile(TimeStampedModel):
         return self.user.email
 
 
-@receiver(post_save, sender=CustomUser)
-def create_user_profile(sender, instance, created, **kwargs):
-    if instance.is_normaluser:
-        UserProfile.objects.get_or_create(user=instance)
-
-
-@receiver(post_save, sender=CustomUser)
-def save_user_profile(sender, instance, **kwargs):
-    if instance.is_normaluser:
-        instance.user_profile.save()
+# @receiver(post_save, sender=CustomUser)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if instance.is_normaluser:
+#         UserProfile.objects.get_or_create(user=instance)
+#
+#
+# @receiver(post_save, sender=CustomUser)
+# def save_user_profile(sender, instance, **kwargs):
+#     if instance.is_normaluser:
+#         instance.user_profile.save()
