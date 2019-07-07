@@ -1,14 +1,15 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_mongoengine import viewsets
 
-from Event.models import Event
-from Event.serializers import EventSerializer
+from AccountDetails.models import AccountDetails
+from AccountDetails.serializers import AccountDetailsSerializer
 
 
-class EventViewSet(viewsets.ModelViewSet):
+class AccountDetailsViewSet(viewsets.ModelViewSet):
+    # this trailing comma is very important without it, it won't work
     # permission_classes = IsAuthenticated,
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
+    queryset = AccountDetails.objects.all()
+    serializer_class = AccountDetailsSerializer
 
     def get_serializer(self, *args, **kwargs):
         if "data" in kwargs:
@@ -18,4 +19,3 @@ class EventViewSet(viewsets.ModelViewSet):
                 kwargs["many"] = True
 
         return super(viewsets.ModelViewSet, self).get_serializer(*args, **kwargs)
-

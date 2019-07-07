@@ -1,8 +1,11 @@
+from django.dispatch import receiver
+
 from utilities.extendedModels import TimeStampedModel
 from mongoengine import fields, CASCADE, Document
 
 from File.models import File
 from Coordinator.models import Coordinator
+from mongoengine import signals
 
 
 class Event(Document, TimeStampedModel):
@@ -16,12 +19,20 @@ class Event(Document, TimeStampedModel):
     event_date_time = fields.StringField(null=True)
     event_venue = fields.StringField(max_length=100, null=True)
     ticket_price = fields.DecimalField(max_digits=19, decimal_places=10, default=0.0)
-    total_payable = fields.DecimalField(max_digits=19,decimal_places=10, default=0.0)
+    total_payable = fields.DecimalField(max_digits=19, decimal_places=10, default=0.0)
     total_slots = fields.IntField(default=10)
     available_slots = fields.IntField(default=10)
 
     event_images = fields.ListField(fields.ReferenceField(File, on_delete=CASCADE, null=True))
-    event_coordinator = fields.ListField(fields.ReferenceField(Coordinator,  reverse_delete_rule=CASCADE, null=False))
+    event_coordinator = fields.ListField(fields.ReferenceField(Coordinator, reverse_delete_rule=CASCADE, null=False))
 
     def __str__(self):
         return self.event_name
+
+
+@receiver(signals.post_delete, sender=Event)
+def delete_event(instance, *args, **kwargs):
+    # print(sender)
+    print(instance)
+    print(*args)
+    # print(**kwargs)

@@ -18,6 +18,7 @@ class Organization(Document, TimeStampedModel):
         ("Commerce", 'Commerce'),
         ("Law", 'Law'),
         ("Liberal Arts", 'Liberal Arts'),
+        ("Arts", 'Arts'),
     )
     org_category = fields.StringField(max_length=20, default='', choices=org_category_choices)
     org_name = fields.StringField(max_length=20, default='')
@@ -26,10 +27,10 @@ class Organization(Document, TimeStampedModel):
     org_description = fields.StringField(max_length=120, default='')
     org_website = fields.URLField()
 
-    org_coordinator = fields.ReferenceField(Coordinator, on_delete=CASCADE, null=True)
+    org_coordinator = fields.ListField(fields.ReferenceField(Coordinator, on_delete=CASCADE, default=''))
 
     org_is_live = fields.BooleanField(default=False)
-    org_user = fields.IntField(null=False, required=True)
+    org_user = fields.IntField(required=True, unique=True)
 
     def __str__(self):
         return self.org_name

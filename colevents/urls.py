@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/event/', include(('Event.urls','event'), namespace='event')),
     path('api/sponsor/', include(('Sponsor.urls','sponsor'), namespace='sponsor')),
     path('api/coordinator/', include(('Coordinator.urls','coordinator'), namespace='coordinator')),
+    path('api/accountDetails/', include(('AccountDetails.urls','accountDetails'), namespace='accountDetails')),
     path('api/file/', include(('File.urls','file'), namespace='file')),
 ]
 

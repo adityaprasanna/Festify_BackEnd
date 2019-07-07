@@ -1,5 +1,3 @@
-import json
-
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -7,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_mongoengine import generics
 
+from Organization.models import Organization
 from user.models import CustomUser
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
-    HTTP_409_CONFLICT
-)
+    HTTP_409_CONFLICT,
+    HTTP_500_INTERNAL_SERVER_ERROR)
 
 from user.serializers import UserSerializer
 
@@ -42,8 +41,16 @@ class UserLogin(APIView):
                             status=HTTP_404_NOT_FOUND)
         token_key, _ = Token.objects.get_or_create(user=user)
         token = Token.objects.get(key=token_key)
-        user = CustomUser.objects.filter(id=token.user_id).values()
-        return Response({'token': token.key, 'user': user[0]},
+        user = CustomUser.objects.filter(id=token.user_id)
+        organization_id = None
+        try:
+            if user[0].is_organization:
+                organization = Organization.objects.filter(org_user=token.user_id)
+                organization_id = str(organization[0].id)
+        except Exception as e:
+            print(e)
+            return Response({"error": str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'token': token.key, 'user': user.values()[0], "organization_id": organization_id},
                         status=HTTP_200_OK)
 
 

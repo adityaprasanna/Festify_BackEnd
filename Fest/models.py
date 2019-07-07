@@ -1,3 +1,4 @@
+from AccountDetails.models import AccountDetails
 from utilities.extendedModels import TimeStampedModel
 from mongoengine import fields, CASCADE, NULLIFY, Document, DynamicDocument, EmbeddedDocument
 
@@ -42,6 +43,7 @@ class Fest(DynamicDocument, TimeStampedModel):
     fest_events = fields.ListField(fields.ReferenceField(Event, blank=False, on_delete=CASCADE))
     fest_sponsor = fields.ListField(fields.ReferenceField(Sponsor, on_delete=NULLIFY, null=True, default=''))
     fest_coordinator = fields.ListField(fields.ReferenceField(Coordinator, on_delete=CASCADE, default=''))
+    fest_accountDetails = fields.ListField(fields.ReferenceField(AccountDetails, on_delete=CASCADE, default=''))
 
     def __str__(self):
         return self.fest_name
