@@ -1,6 +1,6 @@
 *.pyc
 */migrations/*
-colevents/settings.py
+festify/settings.py
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
@@ -31,10 +31,11 @@ speed-measure-plugin.json
 !.vscode/extensions.json
 
 # misc
+.history
+uwsgi.log
+vm_festify
+__pycache__
 
 # System Files
 .DS_Store
 Thumbs.db
-
-uwsgi.log
-festify/
