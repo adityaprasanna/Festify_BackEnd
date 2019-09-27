@@ -13,6 +13,7 @@ class Organization(Document, TimeStampedModel):
     )
     org_type = fields.StringField(max_length=20, default='University', choices=org_type_choices)
     org_category_choices = (
+        ("Arts", 'Arts'),
         ("Medical", 'Medical'),
         ("Engineering", 'Engineering'),
         ("Architecture", 'Architecture'),
