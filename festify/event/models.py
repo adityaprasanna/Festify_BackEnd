@@ -15,8 +15,8 @@ class Event(Document, TimeStampedModel):
 
     event_date_time = fields.StringField(null=True)
     event_venue = fields.StringField(max_length=100, null=True)
-    ticket_price = fields.DecimalField(max_digits=19, decimal_places=10, default=0.0)
-    total_payable = fields.DecimalField(max_digits=19,decimal_places=10, default=0.0)
+    ticket_price = fields.FloatField(max_digits=19, decimal_places=10, default=0.0)
+    total_payable = fields.FloatField(max_digits=19,decimal_places=10, default=0.0)
     total_slots = fields.IntField(default=10)
     available_slots = fields.IntField(default=10)
 

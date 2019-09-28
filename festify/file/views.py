@@ -30,6 +30,7 @@ class FileViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
         if file_list is not None:
+            created_files = []
             for file in file_list:
                 fs = FileSystemStorage(location=settings.UPLOADS_DIR)
                 if fs.exists(file.name):
@@ -38,13 +39,14 @@ class FileViewSet(viewsets.ModelViewSet):
 
                 try:
                     uploaded_file = File(file_name='/uploads/' + file.name.replace(" ", "_"), file_type=file.content_type).save()
+                    created_files.append(str(uploaded_file.id))
                     uploaded_file = self.get_serializer(uploaded_file)
 
                 except Exception as e:
                     print(e)
                     return Response({"message": 'Error while uploading, please try again..'},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            return Response({"message": "All files upload successfully", "data": uploaded_file.data},
+            return Response({"message": "All files upload successfully", "data": created_files},
                 status=status.HTTP_201_CREATED, content_type="application/json")
 
         return Response({"message": 'Error while uploading, please try again'},

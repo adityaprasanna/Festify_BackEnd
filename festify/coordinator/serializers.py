@@ -2,6 +2,7 @@ from rest_framework_mongoengine import serializers
 
 from festify.coordinator.models import Coordinator
 
+
 def phone_no_validation(phone_no):
     str_phone = str(phone_no)
     if len(str_phone) != 10:

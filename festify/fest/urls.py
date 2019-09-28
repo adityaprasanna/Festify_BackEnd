@@ -25,4 +25,5 @@ from festify.fest import views as newView
 
 router = DefaultRouter()
 router.register(r'^v1', newView.FestViewSet, basename='fest')
+router.register(r'^v2', newView.FestViewSetV2, basename='fest')
 urlpatterns = router.urls

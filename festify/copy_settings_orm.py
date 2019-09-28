@@ -228,4 +228,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-UPLOADS_DIR = '/Users/adityaprasanna/Desktop/uploads/'
+UPLOADS_DIR = '/Users/300057491/Desktop/uploads/'

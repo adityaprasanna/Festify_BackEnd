@@ -47,6 +47,45 @@ class Fest(DynamicDocument, TimeStampedModel):
         return self.fest_name
 
 
+class FestV2(DynamicDocument, TimeStampedModel):
+    """ Model for Fest """
+
+    fest_name = fields.StringField(max_length=50, null=False, required=True)
+    fest_type_choices = (
+        ("Annual", 'Annual'),
+        ("Cultural", 'Cultural'),
+        ("Commerce", 'Commerce'),
+        ("Tech", 'Tech'),
+        ("Dance", 'Dance'),
+        ("Conference", 'Conference'),
+        ("Entrepreneurship", 'Entrepreneurship'),
+        ("Literary", 'Literary'),
+        ("Media", 'Media')
+    )
+    fest_type = fields.StringField(max_length=30, default='Annual', choices=fest_type_choices, required=True)
+    fest_category_choices = (
+        ("Fest", "Fest"),
+        ("Single Page Event", "Single Page Event"),
+        ("Mun", "Mun"),
+    )
+    fest_category = fields.StringField(max_length=30, default='Fest', required=True, choices=fest_category_choices)
+    fest_venue = fields.StringField(default='')
+    fest_description = fields.StringField(default='', required=True)
+    fest_start_date = fields.StringField(null=True)
+    fest_end_date = fields.StringField(null=True)
+    fest_website = fields.URLField(null=True, default='')
+    fest_is_live = fields.BooleanField(default=False)
+
+    fest_image = fields.ListField(fields.StringField(on_delete=CASCADE, null=False))
+    fest_organizer = fields.StringField(blank=False, on_delete=CASCADE, required=True)
+    fest_events = fields.ListField(fields.DictField(blank=False, on_delete=CASCADE))
+    fest_sponsor = fields.ListField(fields.DictField(on_delete=NULLIFY, null=True, default=''))
+    fest_coordinator = fields.ListField(fields.DictField(required=True))
+
+    def __str__(self):
+        return self.fest_name
+
+
 class SingleEvent(Document, TimeStampedModel):
     """ Model for Single-Page Event """
 

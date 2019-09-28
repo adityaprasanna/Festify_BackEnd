@@ -21,14 +21,14 @@ class Organization(Document, TimeStampedModel):
         ("Law", 'Law'),
         ("Liberal Arts", 'Liberal Arts'),
     )
-    org_category = fields.StringField(max_length=20, default='', choices=org_category_choices)
+    org_category = fields.StringField(max_length=20, default='', choices=org_category_choices, required=True)
     org_name = fields.StringField(max_length=20, default='')
     org_address = fields.StringField(default='')
     org_image = fields.ReferenceField(File, on_delete=NULLIFY, null=True)
     org_description = fields.StringField(max_length=120, default='')
     org_website = fields.URLField()
 
-    org_coordinator = fields.ReferenceField(Coordinator, on_delete=CASCADE, null=True)
+    org_coordinator = fields.ListField(fields.ReferenceField(Coordinator, on_delete=CASCADE, null=True))
 
     org_is_live = fields.BooleanField(default=False)
     org_user = fields.IntField(null=False, required=True)
