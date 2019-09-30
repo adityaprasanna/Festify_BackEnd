@@ -43,7 +43,8 @@ def delete_sponsors(sponsors):
 
 
 class EventSerializerV2(serializers.DocumentSerializer):
-    event_coordinator = serializers.serializers.ListField(required=False)
+    # event_coordinator = serializers.serializers.ListField(required=False)
+    event_coordinator = serializers.serializers.CharField(required=False)
     event_images = serializers.serializers.ListField(required=False)
 
     class Meta:

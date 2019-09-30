@@ -21,7 +21,8 @@ class Event(Document, TimeStampedModel):
     available_slots = fields.IntField(default=10)
 
     event_images = fields.ListField(fields.ReferenceField(File, on_delete=CASCADE, null=True))
-    event_coordinator = fields.ListField(fields.ReferenceField(Coordinator,  reverse_delete_rule=CASCADE, null=False))
+    # event_coordinator = fields.ListField(fields.ReferenceField(Coordinator,  reverse_delete_rule=CASCADE, null=False))
+    event_coordinator = fields.StringField(required=False)
 
     def __str__(self):
         return self.event_name
