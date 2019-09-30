@@ -4,6 +4,6 @@ from utilities.extendedModels import TimeStampedModel
 
 
 class Coordinator(Document, TimeStampedModel):
-    coordinator_name = fields.StringField(max_length=30, required=True)
-    coordinator_phone = fields.IntField(max_length=10, required=True)
+    coordinator_name = fields.StringField(max_length=30, required=False)
+    coordinator_phone = fields.IntField(max_length=10, required=False)
     coordinator_email = fields.StringField(max_length=50, required=False, null=True)
