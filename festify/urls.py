@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/event/', include(('festify.event.urls','event'), namespace='event')),
     path('api/sponsor/', include(('festify.sponsor.urls','sponsor'), namespace='sponsor')),
     path('api/coordinator/', include(('festify.coordinator.urls','coordinator'), namespace='coordinator')),
+    path('api/accountDetails/', include(('festify.accountDetails.urls','accountDetails'), namespace='accountDetails')),
     path('api/file/', include(('festify.file.urls','file'), namespace='file')),
 ]
 

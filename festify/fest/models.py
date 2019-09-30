@@ -76,12 +76,13 @@ class FestV2(DynamicDocument, TimeStampedModel):
     fest_website = fields.URLField(null=True, default='')
     fest_is_live = fields.BooleanField(default=False)
 
-    fest_image = fields.ListField(fields.StringField(on_delete=CASCADE, null=False))
+    fest_image = fields.ListField(fields.StringField(on_delete=CASCADE, null=False, required=True))
     fest_organizer = fields.StringField(blank=False, on_delete=CASCADE, required=True)
     fest_events = fields.ListField(fields.DictField(blank=False, on_delete=CASCADE))
     fest_sponsor = fields.ListField(fields.DictField(on_delete=NULLIFY, null=True, default=''))
     fest_coordinator = fields.ListField(fields.DictField(required=True))
-
+    fest_account_details = fields.ListField(fields.DictField(required=True))
+    
     def __str__(self):
         return self.fest_name
 
