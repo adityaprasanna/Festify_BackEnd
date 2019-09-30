@@ -81,7 +81,7 @@ def dbref_to_string(data, typ):
 
 class FestSerializerV2(serializers.DocumentSerializer):
     fest_events = EventSerializerV2(many=True)
-    fest_image = serializers.serializers.ListField(required=False)
+    fest_image = serializers.serializers.ListField(required=False, allow_null=True, allow_empty=True, default=[])
     fest_sponsor = SponsorSerializerV2(many=True)
     fest_coordinator = CoordinatorSerializer(many=True)
     fest_account_details = AccountDetailsSerializer(many=True)
