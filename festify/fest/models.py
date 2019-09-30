@@ -80,8 +80,7 @@ class FestV2(DynamicDocument, TimeStampedModel):
     fest_organizer = fields.StringField(blank=False, on_delete=CASCADE, required=True)
     fest_events = fields.ListField(fields.DictField(blank=False, on_delete=CASCADE))
     fest_sponsor = fields.ListField(fields.DictField(on_delete=NULLIFY, null=True, default=''))
-    # fest_coordinator = fields.ListField(fields.DictField(required=True))
-    fest_coordinator = fields.StringField(required=False)
+    fest_coordinator = fields.ListField(fields.DictField(required=True))
     fest_account_details = fields.ListField(fields.DictField(required=True))
     
     def __str__(self):

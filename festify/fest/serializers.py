@@ -82,7 +82,7 @@ class FestSerializerV2(serializers.DocumentSerializer):
     fest_events = EventSerializerV2(many=True)
     fest_image = serializers.serializers.ListField(required=False)
     fest_sponsor = SponsorSerializerV2(many=True)
-    # fest_coordinator = CoordinatorSerializer(many=False)
+    fest_coordinator = CoordinatorSerializer(many=True)
     fest_account_details = AccountDetailsSerializer(many=True)
     fest_organizer = serializers.serializers.CharField(required=False)
     
@@ -98,7 +98,7 @@ class FestSerializerV2(serializers.DocumentSerializer):
         created_events = []
         created_sponsors = []
         
-        # 1. Create Account Details
+        # 0. Create Account Details
         try:
             for account_detail in validated_data["fest_account_details"]:
                 account_detail_to_create = AccountDetailsSerializer(data=account_detail)
@@ -109,14 +109,14 @@ class FestSerializerV2(serializers.DocumentSerializer):
             raise Exception(e)
         
         # 1. Create fest Coordinator
-        # try:
-        #     for coordinator in validated_data["fest_coordinator"]:
-        #         coordinator_to_create = CoordinatorSerializer(data=coordinator)
-        #         coordinator_to_create.is_valid(raise_exception=True)
-        #         c = Coordinator.objects.create(**coordinator)
-        #         created_fest_coordinators.append(c.id)
-        # except Exception as e:
-        #     raise Exception(e)
+        try:
+            for coordinator in validated_data["fest_coordinator"]:
+                coordinator_to_create = CoordinatorSerializer(data=coordinator)
+                coordinator_to_create.is_valid(raise_exception=True)
+                c = Coordinator.objects.create(**coordinator)
+                created_fest_coordinators.append(c.id)
+        except Exception as e:
+            raise Exception(e)
 
         # 2. Create Organizer
         # organizer = dict(validated_data["fest_organizer"])
